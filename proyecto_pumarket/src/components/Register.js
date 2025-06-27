@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Register.css";
 
 function Register() {
@@ -13,7 +13,6 @@ function Register() {
 
   const [emailError, setEmailError] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const navigate = useNavigate();
 
   // Expresión regular para validar correo institucional (nombre.apellido@unah.hn)
   const emailRegex = /^[a-zA-Z]+\.[a-zA-Z]+@unah\.hn$/;
@@ -71,9 +70,6 @@ function Register() {
         email: "",
         password: "",
       });
-
-      // Opcional: redirigir después de 4 segundos
-      setTimeout(() => navigate("/verificar-pendiente"), 4000);
     } catch (error) {
       console.error(error);
       setMensaje("❌ Error: " + error.message);
