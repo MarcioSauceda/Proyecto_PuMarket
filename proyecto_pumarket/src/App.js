@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import Profile from './components/Profile';
 import VerificarCorreo from "./components/VerificarCorreo";
 import ReenviarVerificacion from "./components/ReenviarVerificacion";
 function App() {
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/verificar" element={<VerificarCorreo />} />
           <Route
             path="/reenviar-verificacion"
