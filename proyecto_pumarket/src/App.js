@@ -5,6 +5,7 @@ import Dashboard from "./components/Dashboard";
 import Profile from './components/Profile';
 import VerificarCorreo from "./components/VerificarCorreo";
 import ReenviarVerificacion from "./components/ReenviarVerificacion";
+import SearchProducts from "./components/SearchProducts";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
             path="/reenviar-verificacion"
             element={<ReenviarVerificacion />}
           />
+          <Route path="/buscar" element={<SearchProducts />} />
         </Routes>
       </div>
     </Router>
