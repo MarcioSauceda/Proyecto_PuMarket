@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SearchProducts.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const SearchProducts = () => {
-  const { user } = useAuth();        // ✅ Hook válido
-  const navigate = useNavigate();   // ✅ Hook válido
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('');         // ✅ Hooks deben ir al principio
-  const [category, setCategory] = useState(''); // ✅
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
 
-  // 🚨 Solo aquí validamos y retornamos después de todos los hooks
-  if (!user) {
-    navigate('/');
-    return null;
-  }
+  //Esto lo coloque solo si va a redirigir cuando no haya usuario (pero usando useEffect)
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
+  // Evitar render mientras redirige
+  if (!user) return null;
 
   const sampleProducts = [
     { id: 1, name: 'Camisa', category: 'ropa', price: 250, seller: 'Carlos' },

@@ -71,7 +71,7 @@ function Dashboard() {
                 <h2>PuMarket - Bienvenido, {user.email}</h2>
                 <div className="header-actions">
                     <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
-                    <Link to="/buscar" className="btn btn-search">Buscar Productos</Link> {/* ✅ BOTÓN AGREGADO */}
+                    <Link to="/buscar" className="btn btn-search">Buscar Productos</Link> {/* Boton que agregue */}
                     <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
                 </div>
             </header>
