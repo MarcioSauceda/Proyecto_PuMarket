@@ -1,119 +1,142 @@
-/*import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+//con fetch 
 
-function Dashboard() {
-const { user, logout } = useAuth();
-const navigate = useNavigate();
-
-if (!user) {
-    navigate('/');
-    return null;
-}
-
-return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-    <h2>Bienvenido, {user.email}</h2>
-    <p>¡Has iniciado sesión con éxito!</p>
-    <button onClick={logout}>Cerrar Sesión</button>
-    </div>
-);
-}
-
-export default Dashboard; */
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Dashboard.css';
 
-// Datos simulados de productos (reemplazar con una API en el futuro)
+// Datos simulados de productos (quitar cuando el backend esté listo)
 const mockProducts = [
-    { id: 1, title: 'Laptop HP', category: 'Electrónica', condition: 'Usado', description: 'Laptop en buen estado, 8GB RAM', price: 300, seller: 'juan.perez@unah.hn' },
-    { id: 2, title: 'Silla de Oficina', category: 'Muebles', condition: 'Nuevo', description: 'Silla ergonómica negra', price: 50, seller: 'maria.gomez@unah.hn' },
-    { id: 3, title: 'Libro de Programación', category: 'Libros', condition: 'Usado', description: 'Libro de JavaScript avanzado', price: 20, seller: 'juan.perez@unah.hn' },
+  {
+    id: 1,
+    title: 'Laptop HP',
+    category: 'Electrónica',
+    condition: 'Usado',
+    description: 'Laptop en buen estado, 8GB RAM',
+    price: 300,
+    status: 'Disponible',
+    seller: 'juan.perez@unah.hn',
+    images: ['https://via.placeholder.com/150'],
+  },
+  {
+    id: 2,
+    title: 'Silla de Oficina',
+    category: 'Muebles',
+    condition: 'Nuevo',
+    description: 'Silla ergonómica negra',
+    price: 50,
+    status: 'Disponible',
+    seller: 'maria.gomez@unah.hn',
+    images: ['https://via.placeholder.com/150'],
+  },
 ];
 
 function Dashboard() {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState('');
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState(mockProducts);
 
-  // Filtrar productos según el término de búsqueda
-    const filteredProducts = mockProducts.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  // Cargar productos desde el backend cuando el componente se monta
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/products', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajusta según tu autenticación
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data); // Actualiza el estado con los productos del backend
+        } else {
+          console.error('Error al obtener productos');
+        }
+      } catch (error) {
+        console.error('Error de conexión:', error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-const handleViewProduct = (productId) => {
-    // Redirigir a una página de detalles del producto (a implementar)
+  const filteredProducts = products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleViewProduct = (productId) => {
     navigate(`/product/${productId}`);
-};
+  };
 
-const handleMessageSeller = (sellerEmail) => {
-    // Simulación de enviar un mensaje (puedes conectar con un backend de mensajería)
+  const handleMessageSeller = (sellerEmail) => {
     alert(`Enviando mensaje a ${sellerEmail}`);
-};
+  };
 
-const handleLogout = () => {
+  const handleLogout = () => {
     logout();
     navigate('/');
-};
+  };
 
-if (!user) {
+  if (!user) {
     navigate('/');
     return null;
-}
+  }
 
-return (
+  return (
     <div className="dashboard-container">
-    <header className="dashboard-header">
+      <header className="dashboard-header">
         <h2>PuMarket - Bienvenido, {user.email}</h2>
         <div className="header-actions">
-        <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
-        <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
+          <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
+          <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
         </div>
-    </header>
+      </header>
 
-    <div className="search-bar">
+      <div className="search-bar">
         <input
-            type="text"
-            placeholder="Buscar productos..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+          type="text"
+          placeholder="Buscar productos..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-    </div>
+      </div>
 
-    <div className="product-grid">
+      <div className="product-grid">
         {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+          filteredProducts.map((product) => (
             <div key={product.id} className="product-card">
-                <h3>{product.title}</h3>
-                <p><strong>Categoría:</strong> {product.category}</p>
-                <p><strong>Estado:</strong> {product.condition}</p>
-                <p><strong>Descripción:</strong> {product.description}</p>
-                <p><strong>Precio:</strong> ${product.price}</p>
-                <p><strong>Vendedor:</strong> {product.seller}</p>
-                <button
+              <img
+                src={product.images[0] || 'https://via.placeholder.com/150'}
+                alt={product.title}
+                className="product-image"
+                onClick={() => handleViewProduct(product.id)}
+              />
+              <h3>{product.title}</h3>
+              <p><strong>Descripción:</strong> {product.description}</p>
+              <p><strong>Precio:</strong> ${product.price}</p>
+              <p><strong>Vendedor:</strong> {product.seller}</p>
+              <button
                 className="btn btn-view"
                 onClick={() => handleViewProduct(product.id)}
-                >
+              >
                 Ver Producto
-            </button>
-            <button
+              </button>
+              <button
                 className="btn btn-message"
                 onClick={() => handleMessageSeller(product.seller)}
-            >
+              >
                 Enviar Mensaje
-            </button>
+              </button>
             </div>
-        ))
+          ))
         ) : (
-            <p>No se encontraron productos.</p>
+          <p>No se encontraron productos.</p>
         )}
-        </div>
+      </div>
     </div>
-    );
+  );
 }
 
-export default Dashboard;
+export default Dashboard; 

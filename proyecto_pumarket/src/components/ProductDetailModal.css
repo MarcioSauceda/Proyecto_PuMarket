@@ -15,7 +15,7 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  max-width: 500px;
+  max-width: 800px; /* Aumentar ancho para soportar dos columnas */
   width: 100%;
   max-height: 80vh; /* Limitar altura máxima al 80% de la ventana */
   display: flex;
@@ -34,6 +34,88 @@
   overflow-y: auto; /* Barra de desplazamiento vertical */
   padding-right: 10px; /* Espacio para la barra de desplazamiento */
   box-sizing: border-box; /* Asegurar que el padding no afecte el tamaño */
+}
+
+.product-details {
+  flex: 1;
+  max-height: calc(80vh - 120px); /* Limitar altura para modo visualización */
+  overflow-y: auto; /* Barra de desplazamiento vertical para detalles largos */
+  display: flex;
+  flex-direction: row; /* Disposición en dos columnas */
+  gap: 20px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+.image-section {
+  flex: 2; /* Ocupa más espacio para las imágenes */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main-image-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-image {
+  width: 100%;
+  max-height: 400px; /* Imagen principal más grande */
+  object-fit: contain; /* Mostrar imagen completa */
+  border-radius: 4px;
+}
+
+.image-thumbnails {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Desplazamiento horizontal para miniaturas */
+  gap: 10px;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail.selected {
+  border: 2px solid #007bff; /* Resaltar la miniatura seleccionada */
+}
+
+.btn-arrow {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-prev {
+  left: 10px;
+}
+
+.btn-next {
+  right: 10px;
+}
+
+.btn-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.info-section {
+  flex: 1; /* Menos espacio para la información */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .modal-content div {
