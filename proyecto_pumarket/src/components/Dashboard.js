@@ -32,111 +32,87 @@ const mockProducts = [
 ];
 
 function Dashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState(mockProducts);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
 
-  // Cargar productos desde el backend cuando el componente se monta
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/products', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajusta según tu autenticación
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setProducts(data); // Actualiza el estado con los productos del backend
-        } else {
-          console.error('Error al obtener productos');
-        }
-      } catch (error) {
-        console.error('Error de conexión:', error);
-      }
+    // Filtrar productos según el término de búsqueda
+    const filteredProducts = mockProducts.filter((product) =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const handleViewProduct = (productId) => {
+        // Redirigir a una página de detalles del producto (a implementar)
+        navigate(`/product/${productId}`);
     };
-    fetchProducts();
-  }, []);
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    const handleMessageSeller = (sellerEmail) => {
+        // Simulación de enviar un mensaje (puedes conectar con un backend de mensajería)
+        alert(`Enviando mensaje a ${sellerEmail}`);
+    };
 
-  const handleViewProduct = (productId) => {
-    navigate(`/product/${productId}`);
-  };
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
 
-  const handleMessageSeller = (sellerEmail) => {
-    alert(`Enviando mensaje a ${sellerEmail}`);
-  };
+    if (!user) {
+        navigate('/');
+        return null;
+    }
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+    return (
+        <div className="dashboard-container">
+            <header className="dashboard-header">
+                <h2>PuMarket - Bienvenido, {user.email}</h2>
+                <div className="header-actions">
+                    <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
+                    <Link to="/buscar" className="btn btn-search">Buscar Productos</Link> {/* Boton que agregue */}
+                    <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
+                </div>
+            </header>
 
-  if (!user) {
-    navigate('/');
-    return null;
-  }
-
-  return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h2>PuMarket - Bienvenido, {user.email}</h2>
-        <div className="header-actions">
-          <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
-          <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
-        </div>
-      </header>
-
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      <div className="product-grid">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="product-card">
-              <img
-                src={product.images[0] || 'https://via.placeholder.com/150'}
-                alt={product.title}
-                className="product-image"
-                onClick={() => handleViewProduct(product.id)}
-              />
-              <h3>{product.title}</h3>
-              <p><strong>Descripción:</strong> {product.description}</p>
-              <p><strong>Precio:</strong> ${product.price}</p>
-              <p><strong>Vendedor:</strong> {product.seller}</p>
-              <button
-                className="btn btn-view"
-                onClick={() => handleViewProduct(product.id)}
-              >
-                Ver Producto
-              </button>
-              <button
-                className="btn btn-message"
-                onClick={() => handleMessageSeller(product.seller)}
-              >
-                Enviar Mensaje
-              </button>
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Buscar productos..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
-          ))
-        ) : (
-          <p>No se encontraron productos.</p>
-        )}
-      </div>
-    </div>
-  );
+
+            <div className="product-grid">
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product) => (
+                        <div key={product.id} className="product-card">
+                            <h3>{product.title}</h3>
+                            <p><strong>Categoría:</strong> {product.category}</p>
+                            <p><strong>Estado:</strong> {product.condition}</p>
+                            <p><strong>Descripción:</strong> {product.description}</p>
+                            <p><strong>Precio:</strong> ${product.price}</p>
+                            <p><strong>Vendedor:</strong> {product.seller}</p>
+                            <button
+                                className="btn btn-view"
+                                onClick={() => handleViewProduct(product.id)}
+                            >
+                                Ver Producto
+                            </button>
+                            <button
+                                className="btn btn-message"
+                                onClick={() => handleMessageSeller(product.seller)}
+                            >
+                                Enviar Mensaje
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p>No se encontraron productos.</p>
+                )}
+            </div>
+        </div>
+    );
 }
 
-export default Dashboard; 
+export default Dashboard;

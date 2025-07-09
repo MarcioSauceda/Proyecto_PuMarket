@@ -98,5 +98,20 @@
 }
 
 .btn-message:hover {
+  
   background-color: #138496;
+}
+
+.btn-search {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  margin: 0 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-search:hover {
+  background-color: #218838;
 }
