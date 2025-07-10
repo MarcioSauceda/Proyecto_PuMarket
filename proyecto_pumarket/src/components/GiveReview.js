@@ -13,6 +13,8 @@ const GiveReview = ({ isSold }) => {
     }
   };
 
+  if (!isSold) return null; //CAC - Ashly
+
   return (
     <div className="give-review-container">
       <h3>Calificar compra</h3>
@@ -46,3 +48,4 @@ const GiveReview = ({ isSold }) => {
 };
 
 export default GiveReview;
+
