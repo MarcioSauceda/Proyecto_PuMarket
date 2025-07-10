@@ -7,6 +7,7 @@ import Messages from './components/Messages';
 import VerificarCorreo from "./components/VerificarCorreo";
 import ReenviarVerificacion from "./components/ReenviarVerificacion";
 import SearchProducts from "./components/SearchProducts";
+import Reviews from "./components/Reviews";
 function App() {
   return (
     <Router>
@@ -23,6 +24,7 @@ function App() {
             element={<ReenviarVerificacion />}
           />
           <Route path="/buscar" element={<SearchProducts />} />
+          <Route path="/mis-reseñas" element={<Reviews />} />
         </Routes>
       </div>
     </Router>
