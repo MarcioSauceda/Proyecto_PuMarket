@@ -214,6 +214,7 @@ function ProductDetailModal({ product, isEditing, onClose, onEditProduct }) {
                 <p><strong>Descripción:</strong> {product.description}</p>
                 <p><strong>Precio:</strong> Lps. {product.price}</p>
                 <p><strong>Estado de la publicación:</strong> {product.status}</p>
+                {product.status === 'Vendido' && <GiveReview isSold={true} />}-------------------------
               </div>
             </div>
             <div className="modal-actions">
