@@ -8,6 +8,8 @@ import VerificarCorreo from "./components/VerificarCorreo";
 import ReenviarVerificacion from "./components/ReenviarVerificacion";
 import SearchProducts from "./components/SearchProducts";
 import Reviews from "./components/Reviews";
+import GiveReview from './components/GiveReview';
+
 function App() {
   return (
     <Router>
