@@ -55,3 +55,9 @@ button {
 button:hover {
   background-color: #13395c;
 }
+
+.success-message {
+  color: #2e7d32;
+  text-align: center;
+  font-weight: bold;
+}
