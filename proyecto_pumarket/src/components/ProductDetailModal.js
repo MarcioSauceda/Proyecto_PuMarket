@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaArrowLeft, FaArrowRight, FaTrash, FaSave, FaTimes } from 'react-icons/fa'; // Importar íconos
 import './ProductDetailModal.css';
+import GiveReview from './GiveReview';
 
 function ProductDetailModal({ product, isEditing, onClose, onEditProduct }) {
   const [formData, setFormData] = useState({
