@@ -36,7 +36,7 @@ const Reviews = () => {
 
   return (
     <div className="reviews-container">
-      <h2>Mi reputación: {promedio}/5</h2>
+      <h2>Evalucación General: {promedio}/5</h2>
 
       <div className="legend">
         <p><strong>Leyenda de estrellas:</strong></p>
