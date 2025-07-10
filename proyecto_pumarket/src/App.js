@@ -27,6 +27,7 @@ function App() {
           />
           <Route path="/buscar" element={<SearchProducts />} />
           <Route path="/mis-reseñas" element={<Reviews />} />
+          <Route path="/calificar" element={<GiveReview isSold={true} />} />
         </Routes>
       </div>
     </Router>
