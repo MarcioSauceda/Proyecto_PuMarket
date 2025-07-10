@@ -9,6 +9,8 @@ import ReenviarVerificacion from "./components/ReenviarVerificacion";
 import SearchProducts from "./components/SearchProducts";
 import Reviews from "./components/Reviews";
 import GiveReview from './components/GiveReview';
+import ProductList from './components/ProductList';
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
           <Route path="/buscar" element={<SearchProducts />} />
           <Route path="/mis-reseñas" element={<Reviews />} />
           <Route path="/calificar" element={<GiveReview isSold={true} />} />
+          <Route path="/productos" element={<ProductList />} />
         </Routes>
       </div>
     </Router>
