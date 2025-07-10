@@ -11,6 +11,7 @@ import Reviews from "./components/Reviews";
 import GiveReview from './components/GiveReview';
 import ProductList from './components/ProductList';
 import AdminReports from './components/AdminReports';
+import ReportUser from './components/ReportUser';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/calificar" element={<GiveReview isSold={true} />} />
           <Route path="/productos" element={<ProductList />} />
           <Route path="/admin-reportes" element={<AdminReports />} />
+          <Route path="/reportar-usuario" element={<ReportUser reportedUser="usuario123@unah.hn" />} />
         </Routes>
       </div>
     </Router>
