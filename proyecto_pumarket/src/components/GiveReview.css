@@ -1,0 +1,43 @@
+.give-review-container {
+  background-color: #A8B9C9;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.give-review-container h3 {
+  color: #0B2545;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  color: #ddd;
+  margin: 0 5px;
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: #FFA500; /* Amarillo anaranjado */
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #0B2545;
+  border-radius: 8px;
+  resize: none;
+  margin-top: 10px;
+  font-family: inherit;
+}
+ 
