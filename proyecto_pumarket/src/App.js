@@ -10,6 +10,7 @@ import SearchProducts from "./components/SearchProducts";
 import Reviews from "./components/Reviews";
 import GiveReview from './components/GiveReview';
 import ProductList from './components/ProductList';
+import AdminReports from './components/AdminReports';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/mis-reseñas" element={<Reviews />} />
           <Route path="/calificar" element={<GiveReview isSold={true} />} />
           <Route path="/productos" element={<ProductList />} />
+          <Route path="/admin-reportes" element={<AdminReports />} />
         </Routes>
       </div>
     </Router>
