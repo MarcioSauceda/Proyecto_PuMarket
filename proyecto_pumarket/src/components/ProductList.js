@@ -1,26 +1,42 @@
-// src/components/ProductList.js
 import React from 'react';
 import './ProductList.css';
 
-function ProductList({ products }) {
+const products = [
+  {
+    id: 1,
+    title: 'Laptop Lenovo',
+    price: 9500,
+    image: 'https://via.placeholder.com/150',
+  },
+  {
+    id: 2,
+    title: 'Escritorio de Madera',
+    price: 3200,
+    image: 'https://via.placeholder.com/150',
+  },
+  {
+    id: 3,
+    title: 'Camisa Universitaria',
+    price: 450,
+    image: 'https://via.placeholder.com/150',
+  },
+];
+
+const ProductList = () => {
   return (
     <div className="product-list">
-      <h2>Productos disponibles</h2>
+      <h2>Productos Destacados</h2>
       <div className="product-grid">
-        {products.length === 0 ? (
-          <p>No hay productos disponibles.</p>
-        ) : (
-          products.map((product) => (
-            <div className="product-card" key={product.id}>
-              <img src={product.images[0]} alt={product.title} className="product-image" />
-              <h3 className="product-title">{product.title}</h3>
-              <p className="product-price">Lps. {product.price}</p>
-            </div>
-          ))
-        )}
+        {products.map((product) => (
+          <div className="product-card" key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <h3>{product.title}</h3>
+            <p>Lps. {product.price}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default ProductList;
