@@ -1,47 +1,48 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import ProductDetailModal from './ProductDetailModal'; // Importar el modal
-import './Dashboard.css';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import ProductDetailModal from "./ProductDetailModal";
+import "./Dashboard.css";
 
 function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Cargar productos desde el backend
+  // Obtener productos desde el backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/products', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await fetch("http://localhost:8080/api/productos");
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
         } else {
-          console.error('Error al obtener productos');
-          setProducts([]); // Evitar errores si el backend falla
+          console.error("Error al obtener productos");
+          setProducts([]);
         }
       } catch (error) {
-        console.error('Error de conexión:', error);
+        console.error("Error de conexión:", error);
         setProducts([]);
       }
     };
     fetchProducts();
   }, []);
 
+  // Filtro de búsqueda
   const filteredProducts = products.filter(
     (product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.seller.toLowerCase().includes(searchTerm.toLowerCase()) // Buscar por vendedor
+      product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.descripcion?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.categoria.nombre
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      product.vendedor.correoInstitucional
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
   const handleViewProduct = (product) => {
@@ -64,11 +65,11 @@ function Dashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   if (!user) {
-    navigate('/');
+    navigate("/");
     return null;
   }
 
@@ -77,8 +78,12 @@ function Dashboard() {
       <header className="dashboard-header">
         <h2>PuMarket - Bienvenido, {user.email}</h2>
         <div className="header-actions">
-          <Link to="/profile" className="btn btn-profile">Ver Perfil</Link>
-          <button onClick={handleLogout} className="btn btn-logout">Cerrar Sesión</button>
+          <Link to="/profile" className="btn btn-profile">
+            Ver Perfil
+          </Link>
+          <button onClick={handleLogout} className="btn btn-logout">
+            Cerrar Sesión
+          </button>
         </div>
       </header>
 
@@ -97,22 +102,30 @@ function Dashboard() {
             <div key={product.id} className="product-card">
               <div className="product-image-container">
                 <img
-                  src={product.images[0] || 'https://via.placeholder.com/150'}
-                  alt={product.title}
+                  src={"https://via.placeholder.com/150"}
+                  alt={product.nombre}
                   className="product-image"
                   onClick={() => handleViewProduct(product)}
                 />
               </div>
-              <h3>{product.title}</h3>
-              <p><strong>Descripción:</strong> {product.description}</p>
-              <p><strong>Precio:</strong> ${product.price}</p>
+              <h3>{product.nombre}</h3>
               <p>
-                <strong>Vendedor:</strong>{' '}
+                <strong>Descripción:</strong> {product.descripcion}
+              </p>
+              <p>
+                <strong>Precio:</strong> ${product.precio}
+              </p>
+              <p>
+                <strong>Vendedor:</strong>{" "}
                 <span
                   className="seller-link"
-                  onClick={() => handleViewSellerProfile(product.seller)}
+                  onClick={() =>
+                    handleViewSellerProfile(
+                      product.vendedor.correoInstitucional
+                    )
+                  }
                 >
-                  {product.seller}
+                  {product.vendedor.correoInstitucional}
                 </span>
               </p>
               <div className="product-actions">
@@ -124,7 +137,9 @@ function Dashboard() {
                 </button>
                 <button
                   className="btn btn-message"
-                  onClick={() => handleMessageSeller(product.seller)}
+                  onClick={() =>
+                    handleMessageSeller(product.vendedor.correoInstitucional)
+                  }
                 >
                   Enviar Mensaje
                 </button>
@@ -141,7 +156,7 @@ function Dashboard() {
           product={selectedProduct}
           isEditing={false}
           onClose={handleCloseModal}
-          onEditProduct={() => {}} // No se usa en modo visualización
+          onEditProduct={() => {}}
         />
       )}
     </div>
