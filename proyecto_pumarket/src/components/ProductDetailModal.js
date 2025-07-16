@@ -228,4 +228,5 @@ function ProductDetailModal({ product, isEditing, onClose, onEditProduct }) {
   );
 }
 
-export default ProductDetailModal;
+export default ProductDetailModal; 
+
