@@ -6,7 +6,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import "./Profile.css";
 
 function Profile() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
   const [userProducts, setUserProducts] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -14,6 +14,14 @@ function Profile() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  // Redirección si no hay usuario
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
+
+  // Cargar productos del usuario
   useEffect(() => {
     const fetchUserProducts = async () => {
       try {
@@ -22,6 +30,7 @@ function Profile() {
         );
         if (response.ok) {
           const data = await response.json();
+          console.log("DEBUG: Productos del usuario:", data);
           setUserProducts(data);
         } else {
           console.error("Error al obtener productos del usuario");
@@ -31,31 +40,45 @@ function Profile() {
       }
     };
 
-    if (user?.id) {
+    if (user?.id && !loading) {
       fetchUserProducts();
     }
-  }, [user]);
+  }, [user, loading]);
 
+  // Crear producto con imágenes
   const handleAddProduct = async (newProduct) => {
-    console.log("Usuario actual:", user);
+    console.log("DEBUG: Producto recibido desde AddProductModal:", newProduct);
+
+    const payload = {
+      producto: {
+        nombre: newProduct.nombre,
+        descripcion: newProduct.descripcion,
+        precio: newProduct.precio,
+        categoria: { id: newProduct.categoriaId },
+        vendedor: { id: user.id },
+      },
+      imagenes: newProduct.imagenes, // Array de URLs
+    };
+
+    console.log("DEBUG: Payload enviado al backend:", payload);
+
     try {
-      const response = await fetch("http://localhost:8080/api/productos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: newProduct.nombre,
-          descripcion: newProduct.descripcion,
-          precio: newProduct.precio,
-          categoria: { id: newProduct.categoriaId },
-          vendedor: { id: user.id },
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/productos/con-imagenes",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (response.ok) {
         const created = await response.json();
+        console.log("DEBUG: Producto creado:", created);
         setUserProducts([...userProducts, created]);
       } else {
-        console.error("Error al crear producto");
+        const errorText = await response.text();
+        console.error("Error al crear producto:", errorText);
       }
     } catch (error) {
       console.error("Error de conexión al crear producto:", error);
@@ -99,15 +122,14 @@ function Profile() {
     navigate("/");
   };
 
-  if (!user) {
-    navigate("/");
-    return null;
-  }
+  if (!user) return null;
 
   return (
     <div className="profile-container">
       <header className="profile-header">
-        <h2>Perfil de {user.email}</h2>
+        <h2>
+          Perfil de {user.nombre} {user.apellido}
+        </h2>
         <div className="header-actions">
           <Link to="/dashboard" className="btn btn-dashboard">
             Volver al Dashboard
@@ -136,7 +158,11 @@ function Profile() {
             <div key={product.id} className="product-card">
               <div className="product-image-container">
                 <img
-                  src={"https://via.placeholder.com/150"}
+                  src={
+                    product.imagenes && product.imagenes.length > 0
+                      ? product.imagenes[0].urlImagen || product.imagenes[0] // soporta array de objetos o de strings
+                      : "https://via.placeholder.com/150"
+                  }
                   alt={product.nombre}
                   className="product-image"
                   onClick={() => handleOpenDetail(product)}

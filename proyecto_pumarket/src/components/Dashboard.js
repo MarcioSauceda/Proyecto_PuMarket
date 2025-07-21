@@ -16,9 +16,12 @@ function Dashboard() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/productos");
+        const response = await fetch(
+          `http://localhost:8080/api/productos/excluir-vendedor/${user.id}`
+        );
         if (response.ok) {
           const data = await response.json();
+          console.log("Productos recibidos:", data);
           setProducts(data);
         } else {
           console.error("Error al obtener productos");
@@ -29,8 +32,11 @@ function Dashboard() {
         setProducts([]);
       }
     };
-    fetchProducts();
-  }, []);
+
+    if (user?.id) {
+      fetchProducts();
+    }
+  }, [user]);
 
   // Filtro de búsqueda
   const filteredProducts = products.filter(
@@ -76,7 +82,9 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h2>PuMarket - Bienvenido, {user.email}</h2>
+        <h2>
+          PuMarket - Bienvenido, {user.nombre} {user.apellido}
+        </h2>
         <div className="header-actions">
           <Link to="/profile" className="btn btn-profile">
             Ver Perfil
@@ -102,7 +110,11 @@ function Dashboard() {
             <div key={product.id} className="product-card">
               <div className="product-image-container">
                 <img
-                  src={"https://via.placeholder.com/150"}
+                  src={
+                    product.imagenes && product.imagenes.length > 0
+                      ? product.imagenes[0]
+                      : "https://via.placeholder.com/150"
+                  }
                   alt={product.nombre}
                   className="product-image"
                   onClick={() => handleViewProduct(product)}

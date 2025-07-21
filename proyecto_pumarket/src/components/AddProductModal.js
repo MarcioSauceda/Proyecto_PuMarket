@@ -10,13 +10,16 @@ function AddProductModal({ onClose, onAddProduct }) {
     condition: "Nuevo",
     images: [],
   });
+
   const [categorias, setCategorias] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    // Cargar categorías desde el backend
     fetch("http://localhost:8080/api/categorias")
       .then((res) => res.json())
       .then((data) => setCategorias(data))
@@ -56,7 +59,7 @@ function AddProductModal({ onClose, onAddProduct }) {
     setImageCount((prev) => prev - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { nombre, descripcion, precio, categoriaId, images } = formData;
 
@@ -76,16 +79,70 @@ function AddProductModal({ onClose, onAddProduct }) {
       return;
     }
 
-    const nuevoProducto = {
-      nombre,
-      descripcion,
-      precio: parseFloat(precio),
-      categoriaId: parseInt(categoriaId),
-      // Por ahora enviamos las imágenes como vista previa (mock)
-      imagenes: imagePreviews,
-    };
+    if (!user || !user.id) {
+      setError("Usuario no autenticado.");
+      return;
+    }
 
-    onAddProduct(nuevoProducto); // el componente padre lo adapta al formato final
+    try {
+      setLoading(true);
+      const urlsImagenes = [];
+
+      for (const imgFile of images) {
+        const formDataImagen = new FormData();
+        formDataImagen.append("imagen", imgFile);
+
+        const res = await fetch("http://localhost:8080/api/imagenes", {
+          method: "POST",
+          body: formDataImagen,
+        });
+
+        if (res.ok) {
+          const url = await res.text();
+          urlsImagenes.push(url);
+        } else {
+          setError("Error al subir imagen.");
+          setLoading(false);
+          return;
+        }
+      }
+
+      const dto = {
+        producto: {
+          nombre,
+          descripcion,
+          precio: parseFloat(precio),
+          categoria: { id: parseInt(categoriaId) },
+          vendedor: { id: user.id },
+          condition: formData.condition, // si el backend acepta este campo
+        },
+        imagenes: urlsImagenes,
+      };
+
+      const response = await fetch(
+        "http://localhost:8080/api/productos/con-imagenes",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dto),
+        }
+      );
+
+      if (response.ok) {
+        const nuevo = await response.json();
+        onAddProduct(nuevo);
+        onClose();
+      } else {
+        const texto = await response.text();
+        console.error("Error al guardar:", texto);
+        setError("Error al guardar el producto.");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      setError("No se pudo conectar con el servidor.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -177,8 +234,8 @@ function AddProductModal({ onClose, onAddProduct }) {
             </div>
           </div>
           <div className="modal-actions">
-            <button type="submit" className="btn btn-save">
-              Guardar
+            <button type="submit" className="btn btn-save" disabled={loading}>
+              {loading ? "Guardando..." : "Guardar"}
             </button>
             <button type="button" className="btn btn-cancel" onClick={onClose}>
               Cancelar

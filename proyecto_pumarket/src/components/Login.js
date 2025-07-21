@@ -34,6 +34,8 @@ function Login() {
       login({
         id: usuario.id,
         correo: usuario.correoInstitucional,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
       });
       navigate("/dashboard");
     } catch (err) {
