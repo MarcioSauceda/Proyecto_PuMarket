@@ -1,8 +1,10 @@
-import React from "react";
+import { useNavigate } from "react-router-dom"; // importamos useNavigate 
 import fondo from "../assets/fondo2.jpg";
 
 const HeroSection = () => {
-  return (
+const navigate = useNavigate(); // inicializamos navigate
+  
+return (
     <section
       className="relative bg-cover bg-center text-white h-[500px] sm:h-[600px] md:h-[700px] px-4"
       style={{
@@ -19,7 +21,10 @@ const HeroSection = () => {
           Compra y vende entre estudiantes de forma segura, rápida y sin salir
           del campus.
         </p>
-        <button className="mt-6 bg-accent text-primary px-6 py-3 rounded text-sm sm:text-base hover:bg-yellow-400 transition">
+        <button 
+        onClick={() => navigate("/login")}
+
+        className="mt-6 bg-accent text-primary px-6 py-3 rounded text-sm sm:text-base hover:bg-yellow-400 transition">  
           Explorar productos
         </button>
       </div>

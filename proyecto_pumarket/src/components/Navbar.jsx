@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom"; // importamos useNavigate
 
 import logoPuma from "../assets/logoPuma3.svg";
@@ -17,7 +16,7 @@ const Navbar = () => {
           />
         </div>
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
-          Pumarket UNAH
+          Pu-Market
         </h1>
       </div>
       <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0 sm:gap-4">

@@ -1,10 +1,8 @@
-import React from "react";
-import Navbar from "../components/Navbar";
-import HeroSection from "../components/HeroSection";
 import Benefits from "../components/Benefits";
-import HowItWorks from "../components/HowItWorks";
 import Footer from "../components/Footer";
-import ProductCarousel from "../components/ProductCarousel";
+import HeroSection from "../components/HeroSection";
+import HowItWorks from "../components/HowItWorks";
+import Navbar from "../components/Navbar";
 
 const LandingPage = () => {
   return (
@@ -13,7 +11,6 @@ const LandingPage = () => {
       <HeroSection />
       <Benefits />
       <HowItWorks />
-      <ProductCarousel />
       <Footer />
     </div>
   );

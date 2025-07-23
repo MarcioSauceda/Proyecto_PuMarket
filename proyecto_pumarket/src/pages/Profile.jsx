@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AddProductModal from "../components/AddProductModal";
 import ProductDetailModal from "../components/ProductDetailModal";
+import { useAuth } from "../context/AuthContext";
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -99,7 +99,7 @@ export default function Profile() {
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-3 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="px-3 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary text-black"
             />
             <Link
               to="/dashboard"
