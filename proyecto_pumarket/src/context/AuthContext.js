@@ -35,3 +35,15 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+/* export function useAuth() {
+  return useContext(AuthContext);
+} */
+
+// ★ ESTA LÍNEA debe estar así, exportando un hook nombrado:
+/* export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth debe usarse dentro de <AuthProvider>");
+  return ctx;
+}
+ */
