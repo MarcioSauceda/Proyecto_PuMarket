@@ -1,8 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
+import { AuthProvider } from "./context/AuthContext";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import ProductDetailModal from "./components/ProductDetailModal";
+import AddProductModal from "./components/AddProductModal";
+import Messages from "./components/Messages";
+/* import Login from "./components/Login";
 import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import Profile from './components/Profile';
+import Dashboard from "./components/Dashboard"; */
+/* import Profile from './components/Profile';
 import Messages from './components/Messages';
 import VerificarCorreo from "./components/VerificarCorreo";
 import ReenviarVerificacion from "./components/ReenviarVerificacion";
@@ -11,18 +20,27 @@ import Reviews from "./components/Reviews";
 import GiveReview from './components/GiveReview';
 import ProductList from './components/ProductList';
 import AdminReports from './components/AdminReports';
-import ReportUser from './components/ReportUser';
-
+import ReportUser from './components/ReportUser'; */
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <AuthProvider>
+      <Router>
+        {/*  <div className="App"> */}
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/productdetailmodal" element={<ProductDetailModal />} />
+          <Route path="/addproductmodal" element={<AddProductModal />} />
+          <Route path="/messages" element={<Messages />} />
+
+          {/*  <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/verificar" element={<VerificarCorreo />} />
           <Route
@@ -34,10 +52,14 @@ function App() {
           <Route path="/calificar" element={<GiveReview isSold={true} />} />
           <Route path="/productos" element={<ProductList />} />
           <Route path="/admin-reportes" element={<AdminReports />} />
-          <Route path="/reportar-usuario" element={<ReportUser reportedUser="usuario123@unah.hn" />} />
+          <Route
+            path="/reportar-usuario"
+            element={<ReportUser reportedUser="usuario123@unah.hn" />}
+          /> */}
         </Routes>
-      </div>
-    </Router>
+        {/*   </div> */}
+      </Router>
+    </AuthProvider>
   );
 }
 
