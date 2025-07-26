@@ -93,16 +93,16 @@ export default function Dashboard() {
       {/* NAVBAR FIJA */}
       <nav className="fixed top-0 w-full z-50 bg-primary text-white shadow">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <span className="text-xl font-semibold">Pu-Market</span>
+          <span className="text-2xl font-semibold">Pu-Market</span>
           <div className="flex items-center space-x-4">
             <input
-  type="text"
-  placeholder="Buscar productos, vendedores o categoría"
-  aria-label="Buscar"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  className="w-80 px-2 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary text-black"
-/>
+             type="text"
+             placeholder="Buscar productos, vendedores o categoría"
+             aria-label="Buscar"
+             value={searchTerm}
+             onChange={(e) => setSearchTerm(e.target.value)}
+             className="w-80 px-2 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary text-black"
+            />
             <Link
               to="/profile"
               className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
@@ -131,7 +131,7 @@ export default function Dashboard() {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="lg:w-1/2 mb-12 lg:mb-0">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                  Bienvenido,{" "}
+                  Bienvenido/a PUMA,{" "}
                   <span className="gradient-text bg-gradient-to-r from-pink-500 to-yellow-500">
                     {user.nombre} {user.apellido}
                   </span>
@@ -210,12 +210,6 @@ export default function Dashboard() {
                   </p>
                   <div className="mt-auto pt-4 flex space-x-2">
                     <button
-                      onClick={() => handleViewProduct(product)}
-                      className="flex-1 px-3 py-1 bg-primary text-white rounded hover:opacity-90"
-                    >
-                      Ver Producto
-                    </button>
-                    <button
                       onClick={() =>
                         handleMessageSeller(
                           product.vendedor.correoInstitucional
@@ -240,7 +234,7 @@ export default function Dashboard() {
       {/* FOOTER */}
       <footer className="bg-white border-t border-greylight py-4">
         <p className="text-center text-textdark text-sm">
-          © {new Date().getFullYear()} PuMarket | Todos los derechos reservados
+          © {new Date().getFullYear()} Pu-Market | Todos los derechos reservados
         </p>
       </footer>
 

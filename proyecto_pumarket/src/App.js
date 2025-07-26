@@ -1,13 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import AddProductModal from "./components/AddProductModal";
+import HistorialCompras from './components/HistorialCompras';
+import HistorialVentas from './components/HistorialVentas';
+import Messages from "./components/Messages";
+import ProductDetailModal from "./components/ProductDetailModal";
 import { AuthProvider } from "./context/AuthContext";
+import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import ProductDetailModal from "./components/ProductDetailModal";
-import AddProductModal from "./components/AddProductModal";
-import Messages from "./components/Messages";
+import Register from "./pages/Register";
 /* import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard"; */
@@ -36,6 +38,8 @@ function App() {
           <Route path="/productdetailmodal" element={<ProductDetailModal />} />
           <Route path="/addproductmodal" element={<AddProductModal />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/historialventas" element={<HistorialVentas />} />
+          <Route path="/historialcompras" element={<HistorialCompras />} />
 
           {/*  <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

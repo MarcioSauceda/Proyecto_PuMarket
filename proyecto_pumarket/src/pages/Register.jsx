@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/bg_unah.jpg"; // Ruta a tu imagen de fondo
 import Footer from "../components/Footer";
@@ -14,7 +14,7 @@ export default function Register() {
   const [emailError, setEmailError] = useState("");
   const [mensaje, setMensaje] = useState("");
 
-  const emailRegex = /^[a-zA-Z]+\.[a-zA-Z]+@unah\.hn$/;
+  const emailRegex = /^[a-zA-Z]+(\.[a-zA-Z]+)?@(unah\.hn|unah\.edu\.hn)$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +23,7 @@ export default function Register() {
       setEmailError(
         emailRegex.test(value)
           ? ""
-          : "El correo debe tener el formato nombre.apellido@unah.hn"
+          : "El correo debe tener el formato @unah.hn o @edu.unah.hn"
       );
     }
   };

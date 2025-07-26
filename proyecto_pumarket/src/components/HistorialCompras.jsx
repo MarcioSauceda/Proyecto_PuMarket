@@ -4,7 +4,7 @@ import AddProductModal from "../components/AddProductModal";
 import ProductDetailModal from "../components/ProductDetailModal";
 import { useAuth } from "../context/AuthContext";
 
-export default function Profile() {
+export default function HistorialCompras() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [userProducts, setUserProducts] = useState([]);
@@ -126,7 +126,7 @@ export default function Profile() {
       {/* CONTENIDO PRINCIPAL */}
       <main className="container mx-auto px-4 py-6 flex-1">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-textdark">Mis productos</h2>
+          <h2 className="text-2xl font-bold text-textdark">Historial de Compras</h2>
           <Link
               to="/historialcompras"
               className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
@@ -139,12 +139,12 @@ export default function Profile() {
             >
               Historial Ventas
             </Link>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-primary text-white rounded hover:opacity-90"
-          >
-            Agregar Producto
-          </button>
+          <Link
+              to="/profile"
+              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            >
+              Volver Perfil
+            </Link>
         </div>
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -195,7 +195,7 @@ export default function Profile() {
           </div>
         ) : (
           <p className="text-center text-textdark">
-            No tienes productos publicados.
+            No tienes productos comprados.
           </p>
         )}
       </main>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AddProductModal({ onClose, onAddProduct }) {
   const [formData, setFormData] = useState({
@@ -254,11 +254,11 @@ export default function AddProductModal({ onClose, onAddProduct }) {
             </div>
           </div>
         </div>
-        <div className="flex justify-end space-x-2 px-6 pb-6 border-t border-greylight bg-white sticky bottom-0 z-10">
+        <div className="flex justify-end space-x-2 px-6 pb-1 border-t border-greylight bg-white sticky bottom-5 z-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 bg-primary text-white rounded hover:opacity-90"
+            className="px-4 py-2 bg-primary text-white rounded hover:opacity-90 top-10"
           >
             Cancelar
           </button>
