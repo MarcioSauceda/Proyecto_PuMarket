@@ -4,6 +4,9 @@ import HistorialCompras from './components/HistorialCompras';
 import HistorialVentas from './components/HistorialVentas';
 import Messages from "./components/Messages";
 import ProductDetailModal from "./components/ProductDetailModal";
+import ProfileVendedor from "./components/ProfileVendedor";
+import ReseñasPerfil from "./components/ReseñasPerfil";
+import ReseñasPerfilVendedor from "./components/ReseñasPerfilVendedor";
 import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
@@ -40,6 +43,9 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/historialventas" element={<HistorialVentas />} />
           <Route path="/historialcompras" element={<HistorialCompras />} />
+          <Route path="/profilevendedor" element={<ProfileVendedor />} />
+          <Route path="/reseñasperfil" element={<ReseñasPerfil />} />
+          <Route path="/reseñasperfilvendedor" element={<ReseñasPerfilVendedor />} />
 
           {/*  <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

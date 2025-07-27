@@ -57,7 +57,7 @@ export default function HistorialCompras() {
     setIsAddModalOpen(false);
   };
 
-  const handleDeleteProduct = async (productId) => {
+  /*const handleDeleteProduct = async (productId) => {
     if (
       window.confirm("¿Estás seguro de que quieres eliminar este producto?")
     ) {
@@ -70,6 +70,7 @@ export default function HistorialCompras() {
       }
     }
   };
+*/
 
   const handleLogout = () => {
     logout();
@@ -86,6 +87,10 @@ export default function HistorialCompras() {
     navigate("/");
     return null;
   }
+
+  const handleViewSellerProfile = (email) => {
+    navigate(`/profile/${email}`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -173,22 +178,19 @@ export default function HistorialCompras() {
                   </p>
                 </div>
                 <div className="mt-4 flex space-x-2">
-                  <button
-                    onClick={() => {
-                      setSelectedProduct(product);
-                      setIsDetailModalOpen(true);
-                      setIsEditing(true);
-                    }}
-                    className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDeleteProduct(product.id)}
-                    className="flex-1 px-3 py-1 bg-primary text-white rounded hover:opacity-90"
-                  >
-                    Eliminar
-                  </button>
+                  <p className="text-textdark">
+                    <strong>Vendedor:</strong>{" "}
+                    <span
+                      className="text-primary hover:underline cursor-pointer"
+                      onClick={() =>
+                        handleViewSellerProfile(
+                          product.vendedor.correoInstitucional
+                        )
+                      }
+                    >
+                      {product.vendedor.correoInstitucional}
+                    </span>
+                  </p>
                 </div>
               </div>
             ))}
