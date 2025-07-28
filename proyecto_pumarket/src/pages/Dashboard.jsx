@@ -12,7 +12,6 @@ export default function Dashboard() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-
   // Obtener productos desde el backend excluyendo al vendedor actual
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,9 +47,7 @@ export default function Dashboard() {
       product?.vendedor?.correoInstitucional,
     ]
       .filter(Boolean)
-      .some((field) =>
-        field.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      .some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleViewProduct = (product) => {
@@ -65,8 +62,9 @@ export default function Dashboard() {
     navigate(`/messages/${email}`);
   };
   const handleViewSellerProfile = (email) => {
-    navigate(`/profile/${email}`);
+    navigate(`/perfil-vendedor/${email}`);
   };
+
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -93,124 +91,122 @@ export default function Dashboard() {
       </style>
 
       {/* NAVBAR FIJA */}
-<nav className="fixed top-0 w-full z-50 bg-primary text-white shadow">
-  <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-    <span className="text-2xl font-semibold">Pu-Market</span>
-    <div className="flex items-center space-x-4">
-      
-      {/* Botón desplegable con estilo de <select> */}
-      <div className="relative">
-        <button
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="w-38 h-10 border-2 border-white focus:outline-none text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between"
-        >
-          Categorias ▼
-        </button>
-        {dropdownOpen && (
-          <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
-            <ul className="py-1">
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Mis Compras");
-                  setDropdownOpen(false);
-                }}
+      <nav className="fixed top-0 w-full z-50 bg-primary text-white shadow">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <span className="text-2xl font-semibold">Pu-Market</span>
+          <div className="flex items-center space-x-4">
+            {/* Botón desplegable con estilo de <select> */}
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="w-38 h-10 border-2 border-white focus:outline-none text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between"
               >
-                Mis Compras
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Mis Ventas");
-                  setDropdownOpen(false);
-                }}
-              >
-                Mis Ventas
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Favoritos
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Otras
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Nose
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Otras
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Otras
-              </li>
-              <li
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  console.log("Favoritos");
-                  setDropdownOpen(false);
-                }}
-              >
-                Otras
-              </li>
-            </ul>
+                Categorias ▼
+              </button>
+              {dropdownOpen && (
+                <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
+                  <ul className="py-1">
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Mis Compras");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Mis Compras
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Mis Ventas");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Mis Ventas
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Favoritos
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Otras
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Nose
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Otras
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Otras
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log("Favoritos");
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Otras
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Buscador */}
+            <input
+              type="text"
+              placeholder="Buscar productos, vendedores o categoría"
+              aria-label="Buscar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-80 px-2 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary text-black"
+            />
+            <Link
+              to="/profile"
+              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            >
+              Ver Perfil
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            >
+              Cerrar Sesión
+            </button>
           </div>
-        )}
-      </div>
-
-      {/* Buscador */}
-      <input
-        type="text"
-        placeholder="Buscar productos, vendedores o categoría"
-        aria-label="Buscar"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-80 px-2 py-1 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary text-black"
-      />
-      <Link
-        to="/profile"
-        className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-      >
-        Ver Perfil
-      </Link>
-      <button
-        onClick={handleLogout}
-        className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-      >
-        Cerrar Sesión
-      </button>
-    </div>
-  </div>
-</nav>
-
+        </div>
+      </nav>
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="flex-1 pt-5">

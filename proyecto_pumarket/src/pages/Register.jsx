@@ -30,9 +30,31 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (emailError) return;
+
     try {
-      // Lógica de registro...
-      setMensaje("✅ ¡Registro exitoso!");
+      const response = await fetch("http://localhost:8080/api/registro", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: formData.firstName,
+          apellido: formData.lastName,
+          correo: formData.email,
+          matricula: formData.idNumber,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.text();
+
+      if (!response.ok) {
+        throw new Error(data || "Error en el registro");
+      }
+
+      setMensaje("✅ " + data);
       setFormData({
         firstName: "",
         lastName: "",
@@ -41,7 +63,6 @@ export default function Register() {
         password: "",
       });
     } catch (error) {
-      console.error(error);
       setMensaje("❌ Error: " + error.message);
     }
   };

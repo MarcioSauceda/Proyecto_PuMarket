@@ -1,78 +1,63 @@
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AddProductModal from "../components/AddProductModal";
 import ProductDetailModal from "../components/ProductDetailModal";
-import { useAuth } from "../context/AuthContext";
 
-export default function HistorialCompras() {
-  const { user, logout } = useAuth();
+export default function ProfileVendedor() {
+  const { correo } = useParams();
   const navigate = useNavigate();
-  const [userProducts, setUserProducts] = useState([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [vendedor, setVendedor] = useState(null);
+  const [sellerProducts, setSellerProducts] = useState([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Traer datos del vendedor y productos por correo
   useEffect(() => {
-    const fetchUserProducts = async () => {
+    // Traer datos del vendedor
+    const fetchVendedor = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/productos/vendedor/${user.id}`
+        const res = await fetch(
+          `http://localhost:8080/api/usuarios/correo/${correo}`
         );
-        if (response.ok) {
-          const data = await response.json();
-          setUserProducts(data);
-        } else {
-          console.error("Error al obtener productos del usuario");
+        if (res.ok) {
+          const data = await res.json();
+          setVendedor(data);
         }
       } catch (error) {
-        console.error("Error de conexión:", error);
+        setVendedor(null);
       }
     };
 
-    if (user?.id) fetchUserProducts();
-  }, [user]);
-
-  const handleAddProduct = async (newProduct) => {
-    try {
-      const response = await fetch("http://localhost:8080/api/productos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: newProduct.nombre,
-          descripcion: newProduct.descripcion,
-          precio: newProduct.precio,
-          categoria: { id: newProduct.categoriaId },
-          vendedor: { id: user.id },
-        }),
-      });
-      if (response.ok) {
-        const created = await response.json();
-        setUserProducts([...userProducts, created]);
+    // Traer productos del vendedor
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8080/api/productos/vendedor-correo/${correo}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setSellerProducts(data);
+        }
+      } catch (error) {
+        setSellerProducts([]);
       }
-    } catch (error) {
-      console.error("Error al crear producto:", error);
+    };
+
+    if (correo) {
+      fetchVendedor();
+      fetchProducts();
     }
-    setIsAddModalOpen(false);
-  };
+  }, [correo]);
 
-  
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
-  const filteredProducts = userProducts.filter(
+  // Filtro de productos
+  const filteredProducts = sellerProducts.filter(
     (p) =>
       p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (!user) {
-    navigate("/");
-    return null;
+  if (!vendedor) {
+    return <p className="text-center mt-12">Cargando perfil del vendedor...</p>;
   }
 
   return (
@@ -80,9 +65,8 @@ export default function HistorialCompras() {
       {/* NAVBAR */}
       <nav className="bg-primary text-white px-4 py-3">
         <div className="container mx-auto flex items-center justify-between">
-          <span className="text-xl font-semibold">Perfil de{" "}
-            {user.nombre} {user.apellido}
-
+          <span className="text-xl font-semibold">
+            Perfil de {vendedor.nombre} {vendedor.apellido}
           </span>
           <div className="flex items-center space-x-3">
             <input
@@ -104,28 +88,26 @@ export default function HistorialCompras() {
             >
               Mensajería
             </Link>
-            <button
-              onClick={handleLogout}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-            >
-              Cerrar Sesión
-            </button>
           </div>
         </div>
       </nav>
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="container mx-auto px-4 py-6 flex-1">
-       <div className="flex justify-between items-center mb-4">
-  <h2 className="text-2xl font-bold text-textdark">Productos disponibles</h2>
+        {/* Botón de reseña */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-textdark">
+            Productos de {vendedor.nombre}
+          </h2>
+          <Link
+            to={`/reseñasperfilvendedor/${vendedor.correoInstitucional}`}
+            className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+          >
+            Dejar Reseña
+          </Link>
+        </div>
 
-  <Link
-        to="/reseñasperfilvendedor"
-        className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-      >
-        Reseñas
-      </Link>
-</div>
+        {/* Grid de productos */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
@@ -134,13 +116,19 @@ export default function HistorialCompras() {
                 className="bg-white rounded-lg shadow p-4 flex flex-col"
               >
                 <img
-                  src={product.imagen || "https://via.placeholder.com/300x200"}
+                  src={
+                    product.imagenes && product.imagenes.length > 0
+                      ? typeof product.imagenes[0] === "string"
+                        ? product.imagenes[0]
+                        : product.imagenes[0].urlImagen ||
+                          "https://via.placeholder.com/300x200"
+                      : "https://via.placeholder.com/300x200"
+                  }
                   alt={product.nombre}
                   className="w-full h-48 object-cover rounded cursor-pointer"
                   onClick={() => {
                     setSelectedProduct(product);
                     setIsDetailModalOpen(true);
-                    setIsEditing(false);
                   }}
                 />
                 <div className="mt-4 flex-1 space-y-2">
@@ -152,16 +140,15 @@ export default function HistorialCompras() {
                     Lps. {product.precio}
                   </p>
                 </div>
-                <div className="mt-4 flex space-x-2">
+                {/* Botón para enviar mensaje (por producto) */}
+                <div className="mt-4 flex">
                   <button
-                    onClick={() => {
-                      setSelectedProduct(product);
-                      setIsDetailModalOpen(true);
-                      setIsEditing(true);
-                    }}
+                    onClick={() =>
+                      navigate(`/messages/${vendedor.correoInstitucional}`)
+                    }
                     className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
                   >
-                    Contactar Vendedor
+                    Enviar Mensaje
                   </button>
                 </div>
               </div>
@@ -181,17 +168,11 @@ export default function HistorialCompras() {
         </p>
       </footer>
 
-      {/* MODALES */}
-      {isAddModalOpen && (
-        <AddProductModal
-          onClose={() => setIsAddModalOpen(false)}
-          onAddProduct={handleAddProduct}
-        />
-      )}
+      {/* MODAL DE DETALLE */}
       {isDetailModalOpen && selectedProduct && (
         <ProductDetailModal
           product={selectedProduct}
-          isEditing={isEditing}
+          isEditing={false}
           onClose={() => setIsDetailModalOpen(false)}
           onEditProduct={() => {}}
         />
