@@ -14,6 +14,12 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CategoriaPage from "./pages/admin/Categoriapage";
+import Usuariospage from "./pages/admin/Usuariospage";
+import ReportesPage from "./pages/admin/Reportespage";
+import Ventascompras from "./pages/admin/Ventascompras";
+import Productosdisponibles from "./pages/admin/Productosdisponibles";
+import Opcionespage from "./pages/admin/Opcionespage";
 /* import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard"; */
@@ -51,6 +57,18 @@ function App() {
             element={<ReseñasPerfilVendedor />}
           />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/categorias" element={<CategoriaPage />} />
+          <Route path="/admin/usuarios" element={<Usuariospage />} />
+          <Route path="/admin/reportes" element={<ReportesPage />} />
+          <Route
+            path="/admin/reportes/ventas-compras"
+            element={<Ventascompras />}
+          />
+          <Route
+            path="/admin/reportes/productos-disponibles"
+            element={<Productosdisponibles />}
+          />
+          <Route path="/admin/opciones" element={<Opcionespage />} />
 
           {/*  <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
