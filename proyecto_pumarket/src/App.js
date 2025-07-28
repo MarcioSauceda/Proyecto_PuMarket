@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AddProductModal from "./components/AddProductModal";
-import HistorialCompras from './components/HistorialCompras';
-import HistorialVentas from './components/HistorialVentas';
+import HistorialCompras from "./components/HistorialCompras";
+import HistorialVentas from "./components/HistorialVentas";
 import Messages from "./components/Messages";
 import ProductDetailModal from "./components/ProductDetailModal";
 import ProfileVendedor from "./components/ProfileVendedor";
@@ -13,6 +13,7 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 /* import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard"; */
@@ -45,7 +46,11 @@ function App() {
           <Route path="/historialcompras" element={<HistorialCompras />} />
           <Route path="/profilevendedor" element={<ProfileVendedor />} />
           <Route path="/reseñasperfil" element={<ReseñasPerfil />} />
-          <Route path="/reseñasperfilvendedor" element={<ReseñasPerfilVendedor />} />
+          <Route
+            path="/reseñasperfilvendedor"
+            element={<ReseñasPerfilVendedor />}
+          />
+          <Route path="/admin" element={<AdminDashboard />} />
 
           {/*  <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
