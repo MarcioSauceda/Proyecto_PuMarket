@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 
-export default function AddProductModal({ onClose, onAddProduct }) {
+export default function AddProductModal({
+  onClose,
+  onAddProduct,
+  isEditing = false,
+  productToEdit = null,
+  onEditProduct,
+}) {
   const [formData, setFormData] = useState({
     nombre: "",
     descripcion: "",
     precio: "",
     categoriaId: "",
-    condition: "Nuevo",
+    estadoDelProducto: "",
     images: [],
   });
   const [categorias, setCategorias] = useState([]);
+  const [estadosProducto, setEstadosProducto] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [error, setError] = useState("");
@@ -17,13 +24,59 @@ export default function AddProductModal({ onClose, onAddProduct }) {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // Llenar los datos si editas
   useEffect(() => {
+    if (isEditing && productToEdit) {
+      setFormData({
+        nombre: productToEdit.nombre || "",
+        descripcion: productToEdit.descripcion || "",
+        precio: productToEdit.precio || "",
+        categoriaId: productToEdit.categoria?.id || "",
+        estadoDelProducto: productToEdit.estadoDelProducto?.id || "",
+        images: [], // Solo para nuevas imágenes
+      });
+      if (productToEdit.imagenes && Array.isArray(productToEdit.imagenes)) {
+        setImagePreviews(
+          productToEdit.imagenes.map((img) =>
+            typeof img === "string" ? img : img.urlImagen
+          )
+        );
+        setImageCount(productToEdit.imagenes.length);
+      } else {
+        setImagePreviews([]);
+        setImageCount(0);
+      }
+    } else {
+      setFormData({
+        nombre: "",
+        descripcion: "",
+        precio: "",
+        categoriaId: "",
+        estadoDelProducto: "",
+        images: [],
+      });
+      setImagePreviews([]);
+      setImageCount(0);
+    }
+  }, [isEditing, productToEdit]);
+
+  useEffect(() => {
+    // Cargar categorías
     fetch("http://localhost:8080/api/categorias")
       .then((res) => res.json())
       .then((data) => setCategorias(data))
       .catch((err) => {
         console.error("Error al cargar categorías", err);
         setCategorias([]);
+      });
+
+    // Cargar estados del producto
+    fetch("http://localhost:8080/api/estadoproducto")
+      .then((res) => res.json())
+      .then((data) => setEstadosProducto(data))
+      .catch((err) => {
+        console.error("Error al cargar estados del producto", err);
+        setEstadosProducto([]);
       });
   }, []);
 
@@ -59,14 +112,22 @@ export default function AddProductModal({ onClose, onAddProduct }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { nombre, descripcion, precio, categoriaId, images } = formData;
+    const {
+      nombre,
+      descripcion,
+      precio,
+      categoriaId,
+      estadoDelProducto,
+      images,
+    } = formData;
 
     if (
       !nombre ||
       !descripcion ||
       !precio ||
       !categoriaId ||
-      images.length === 0
+      !estadoDelProducto ||
+      (!isEditing && images.length === 0)
     ) {
       setError("Completa todos los campos y sube al menos una imagen.");
       return;
@@ -103,35 +164,47 @@ export default function AddProductModal({ onClose, onAddProduct }) {
         }
       }
 
+      // Objeto que se enviará al backend
       const dto = {
         producto: {
+          id: isEditing && productToEdit?.id ? productToEdit.id : undefined,
           nombre,
           descripcion,
           precio: parseFloat(precio),
           categoria: { id: parseInt(categoriaId) },
           vendedor: { id: user.id },
-          condition: formData.condition,
+          estadoDelProducto: { id: parseInt(estadoDelProducto) },
         },
         imagenes: urlsImagenes,
       };
 
-      const response = await fetch(
-        "http://localhost:8080/api/productos/con-imagenes",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dto),
-        }
-      );
-
-      if (response.ok) {
-        const nuevo = await response.json();
-        onAddProduct(nuevo);
+      if (isEditing) {
+        // En edición: PUT o función de edición
+        await onEditProduct({
+          ...dto.producto,
+          categoriaId: dto.producto.categoria.id,
+          estadoDelProducto: dto.producto.estadoDelProducto,
+        });
         onClose();
       } else {
-        const texto = await response.text();
-        console.error("Error al guardar:", texto);
-        setError("Error al guardar el producto.");
+        // En creación: POST
+        const response = await fetch(
+          "http://localhost:8080/api/productos/con-imagenes",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dto),
+          }
+        );
+        if (response.ok) {
+          const nuevo = await response.json();
+          onAddProduct(nuevo);
+          onClose();
+        } else {
+          const texto = await response.text();
+          console.error("Error al guardar:", texto);
+          setError("Error al guardar el producto.");
+        }
       }
     } catch (error) {
       console.error("Error de red:", error);
@@ -148,7 +221,7 @@ export default function AddProductModal({ onClose, onAddProduct }) {
         className="bg-white rounded-lg max-w-md w-full max-h-[80vh] flex flex-col overflow-hidden"
       >
         <h2 className="text-xl font-semibold text-textdark px-6 pt-6">
-          Agregar Nuevo Producto
+          {isEditing ? "Editar Producto" : "Agregar Nuevo Producto"}
         </h2>
         {error && <p className="text-red-600 text-sm px-6">{error}</p>}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
@@ -189,13 +262,18 @@ export default function AddProductModal({ onClose, onAddProduct }) {
               Estado:
             </label>
             <select
-              name="condition"
-              value={formData.condition}
+              name="estadoDelProducto"
+              value={formData.estadoDelProducto}
               onChange={handleChange}
+              required
               className="w-full px-3 py-2 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="Nuevo">Nuevo</option>
-              <option value="Usado">Usado</option>
+              <option value="">-- Selecciona un estado --</option>
+              {estadosProducto.map((estado) => (
+                <option key={estado.id} value={estado.id}>
+                  {estado.nombre}
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -224,35 +302,37 @@ export default function AddProductModal({ onClose, onAddProduct }) {
               className="w-full px-3 py-2 border border-greylight rounded focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-textdark">
-              Imágenes (1 a 10):
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
-            />
-            <div className="flex space-x-2 overflow-x-auto mt-2">
-              {imagePreviews.map((preview, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={preview}
-                    alt={`Vista previa ${index + 1}`}
-                    className="w-24 h-24 object-cover rounded cursor-pointer border-2 border-transparent"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    className="absolute top-0 right-0 p-1 bg-accent text-textdark rounded hover:opacity-90"
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              ))}
+          {!isEditing && (
+            <div>
+              <label className="block text-sm font-medium mb-1 text-textdark">
+                Imágenes (1 a 10):
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageChange}
+              />
+              <div className="flex space-x-2 overflow-x-auto mt-2">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={preview}
+                      alt={`Vista previa ${index + 1}`}
+                      className="w-24 h-24 object-cover rounded cursor-pointer border-2 border-transparent"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-0 right-0 p-1 bg-accent text-textdark rounded hover:opacity-90"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="flex justify-end space-x-2 px-6 pb-1 border-t border-greylight bg-white sticky bottom-5 z-2">
           <button
@@ -267,7 +347,11 @@ export default function AddProductModal({ onClose, onAddProduct }) {
             disabled={loading}
             className="px-4 py-2 bg-accent text-textdark rounded hover:opacity-90"
           >
-            {loading ? "Guardando..." : "Guardar"}
+            {loading
+              ? "Guardando..."
+              : isEditing
+              ? "Guardar cambios"
+              : "Guardar"}
           </button>
         </div>
       </form>
