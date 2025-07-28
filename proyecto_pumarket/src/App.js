@@ -14,12 +14,21 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
+// Admin pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import CategoriaPage from "./pages/admin/Categoriapage";
+import Usuariospage from "./pages/admin/Usuariospage";
+import ReportesPage from "./pages/admin/Reportespage";
+import Ventascompras from "./pages/admin/Ventascompras";
+import Productosdisponibles from "./pages/admin/Productosdisponibles";
+import Opcionespage from "./pages/admin/Opcionespage";
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        {/*  <div className="App"> */}
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -30,37 +39,30 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/historialventas" element={<HistorialVentas />} />
           <Route path="/historialcompras" element={<HistorialCompras />} />
+
+          {/* Vendor profile routes */}
+          <Route path="/profilevendedor" element={<ProfileVendedor />} />
+          <Route path="/reseñasperfil" element={<ReseñasPerfil />} />
           <Route
-            path="/perfil-vendedor/:correo"
-            element={<ProfileVendedor />}
-          />
-          <Route path="/reseñasperfil/" element={<ReseñasPerfil />} />
-          <Route
-            path="/reseñasperfilvendedor/:correo"
+            path="/reseñasperfilvendedor"
             element={<ReseñasPerfilVendedor />}
           />
 
-          {/*  <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} /> */}
-          {/* <Route path="/profile" element={<Profile />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/verificar" element={<VerificarCorreo />} />
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/categorias" element={<CategoriaPage />} />
+          <Route path="/admin/usuarios" element={<Usuariospage />} />
+          <Route path="/admin/reportes" element={<ReportesPage />} />
           <Route
-            path="/reenviar-verificacion"
-            element={<ReenviarVerificacion />}
+            path="/admin/reportes/ventas-compras"
+            element={<Ventascompras />}
           />
-          <Route path="/buscar" element={<SearchProducts />} />
-          <Route path="/mis-reseñas" element={<Reviews />} />
-          <Route path="/calificar" element={<GiveReview isSold={true} />} />
-          <Route path="/productos" element={<ProductList />} />
-          <Route path="/admin-reportes" element={<AdminReports />} />
           <Route
-            path="/reportar-usuario"
-            element={<ReportUser reportedUser="usuario123@unah.hn" />}
-          /> */}
+            path="/admin/reportes/productos-disponibles"
+            element={<Productosdisponibles />}
+          />
+          <Route path="/admin/opciones" element={<Opcionespage />} />
         </Routes>
-        {/*   </div> */}
       </Router>
     </AuthProvider>
   );
