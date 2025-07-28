@@ -12,10 +12,10 @@ import {
 
 const navItems = [
   { to: "/admin", Icon: FaTachometerAlt, label: "Dashboard" },
-  { to: "/admin/users", Icon: FaUserFriends, label: "Usuarios" },
-  { to: "/admin/reports", Icon: FaChartLine, label: "Reportes" },
-  { to: "/admin/categories", Icon: FaTags, label: "Categorías" },
-  { to: "/admin/options", Icon: FaCogs, label: "Opciones" },
+  { to: "/admin/usuarios", Icon: FaUserFriends, label: "Usuarios" },
+  { to: "/admin/reportes", Icon: FaChartLine, label: "Reportes" },
+  { to: "/admin/categorias", Icon: FaTags, label: "Categorías" },
+  { to: "/admin/opciones", Icon: FaCogs, label: "Opciones" },
 ];
 
 const EnhancedAdminSidebar = () => (
