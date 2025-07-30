@@ -138,19 +138,19 @@ export default function Profile() {
             />
             <Link
               to="/dashboard"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Volver Dashboard
             </Link>
             <Link
               to="/messages"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Mensajería
             </Link>
             <button
               onClick={handleLogout}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Cerrar Sesión
             </button>
@@ -168,7 +168,7 @@ export default function Profile() {
             {/* Botón de Reseñas */}
             <Link
               to="/reseñasperfil"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
             >
               Reseñas
             </Link>
@@ -178,19 +178,19 @@ export default function Profile() {
           <div className="flex justify-end space-x-2">
             <Link
               to="/historialcompras"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
             >
               Historial Compras
             </Link>
             <Link
               to="/historialventas"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
             >
               Historial Ventas
             </Link>
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="px-4 py-2 bg-primary text-white rounded hover:opacity-90"
+              className="p-2 transition-shadow bg-primary border shadow-sm rounded-xl border-greylight hover:shadow-md text-white"
             >
               Agregar Producto
             </button>

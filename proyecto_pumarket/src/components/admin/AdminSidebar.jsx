@@ -1,13 +1,12 @@
-import React from "react";
-import { ReactComponent as Logo } from "../../assets/logoPuma3.svg"; // Ajusta la ruta al SVG
 import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from "../../assets/logoPuma3.svg"; // Ajusta la ruta al SVG
 // Usamos react-icons para los íconos
 import {
-  FaTachometerAlt,
-  FaUserFriends,
   FaChartLine,
-  FaTags,
   FaCogs,
+  FaTachometerAlt,
+  FaTags,
+  FaUserFriends,
 } from "react-icons/fa";
 
 const navItems = [
@@ -22,7 +21,7 @@ const EnhancedAdminSidebar = () => (
   <div className="fixed inset-y-0 left-0 z-50 w-64 text-white shadow-xl bg-primary">
     <div className="flex items-center justify-center h-16">
       <span className="flex items-center text-2xl font-bold align-middle">
-        <Logo className="inline-block w-16 h-16 mr-2" />
+        <Logo className="inline-block w-20 h-15 mr-2" />
         Pu-Market
       </span>
     </div>

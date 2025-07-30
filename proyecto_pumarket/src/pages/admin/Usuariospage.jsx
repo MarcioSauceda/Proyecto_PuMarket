@@ -1,7 +1,6 @@
-import React from "react";
-import AdminSidebar from "../../components/admin/AdminSidebar";
+import { FaEdit, FaEye, FaTrash, FaUserFriends } from "react-icons/fa";
 import AdminHeader from "../../components/admin/AdminHeader";
-import { FaUserFriends, FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const UsuariosPage = () => {
   const users = [
@@ -46,7 +45,7 @@ const UsuariosPage = () => {
         <AdminHeader />
         <main className="min-h-screen p-6 bg-bglight">
           {/* Stats Card */}
-          <div className="w-full p-6 mb-6 bg-white border shadow-sm rounded-xl border-softgray md:w-64">
+          <div className="w-full p-6 mb-6 bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md md:w-64">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-greylight">
@@ -72,7 +71,7 @@ const UsuariosPage = () => {
           </div>
 
           {/* Users Table */}
-          <div className="mb-6 overflow-x-auto bg-white border shadow-sm rounded-xl border-softgray">
+          <div className="mb-6 overflow-x-auto bg-white border shadow-sm rounded-xl border-greylight">
             <div className="px-6 py-4 border-b border-softgray">
               <h3 className="text-lg font-semibold text-textdark">
                 Usuarios registrados en Pu-Market

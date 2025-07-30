@@ -1,8 +1,7 @@
-import React from "react";
+import { FaBox, FaDollarSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
-import { FaDollarSign, FaBox } from "react-icons/fa";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const ReportesPage = () => {
   return (
@@ -17,7 +16,7 @@ const ReportesPage = () => {
           <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2">
             {/* Ventas/Compras Report Card */}
             <Link to="/admin/reportes/ventas-compras" className="block">
-              <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-softgray hover:shadow-md">
+              <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-greylight">
@@ -45,7 +44,7 @@ const ReportesPage = () => {
 
             {/* Productos Disponibles Report Card */}
             <Link to="/admin/reportes/productos-disponibles" className="block">
-              <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-softgray hover:shadow-md">
+              <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-greylight">

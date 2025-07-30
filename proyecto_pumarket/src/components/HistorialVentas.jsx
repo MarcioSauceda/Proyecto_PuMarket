@@ -108,19 +108,19 @@ export default function HistorialVentas() {
             />
             <Link
               to="/dashboard"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Volver Dashboard
             </Link>
             <Link
               to="/messages"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Mensajería
             </Link>
             <button
               onClick={handleLogout}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Cerrar Sesión
             </button>
@@ -130,27 +130,36 @@ export default function HistorialVentas() {
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="container mx-auto px-4 py-6 flex-1">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-textdark">Historial de Ventas</h2>
-          <Link
-              to="/historialcompras"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-            >
-              Historial Compras
-            </Link>
-          <Link
-              to="/historialventas"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-            >
-              Historial Ventas
-            </Link>
-          <Link
-              to="/profile"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-            >
-              Volver Perfil
-            </Link>
-        </div>
+        {/* Contenedor principal en fila: título + volver */}
+<div className="flex items-center justify-between mb-2 w-full">
+  {/* Título a la izquierda */}
+  <h2 className="text-2xl font-bold text-textdark">Historial de Ventas</h2>
+
+  {/* Botón "Volver Perfil" a la derecha */}
+  <Link
+    to="/profile"
+    className="p-2 transition-shadow bg-primary border shadow-sm rounded-xl border-greylight hover:shadow-md text-white"
+  >
+    Volver Perfil
+  </Link>
+</div>
+
+{/* Segunda fila: botones de historial */}
+<div className="flex justify-end space-x-4 mb-4">
+  <Link
+    to="/historialcompras"
+    className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
+  >
+    Historial Compras
+  </Link>
+  <Link
+    to="/historialventas"
+    className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
+  >
+    Historial Ventas
+  </Link>
+</div>
+
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
