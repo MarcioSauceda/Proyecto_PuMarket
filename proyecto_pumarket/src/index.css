@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @keyframes typing {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      border-color: white;
+    }
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  .animate-typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid white;
+    display: inline-block;
+    animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+  }
+}
+
+/* Fade in texto fijo */
+.welcome-text {
+  opacity: 0;
+  animation: fadeIn 3s ease forwards;
+}
+
+/* Para que el typing empiece después */
+.typing-puma {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  visibility: hidden;
+  animation:
+    typingPuma 2s steps(60) forwards 1.6s,
+    fadeIn 0.1s forwards 1.6s;
+  line-height: 1.2;
+  padding-bottom: 2px;
+}
+
+/* Animación fadeIn */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Animación typing */
+@keyframes typingPuma {
+  to {
+    width: 100%;
+    visibility: visible;
+  }
+}

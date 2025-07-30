@@ -152,11 +152,16 @@ export default function Dashboard() {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="lg:w-1/2 mb-12 lg:mb-0">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                  Bienvenido/a PUMA,{" "}
-                  <span className="gradient-text bg-gradient-to-r from-violet-500 to-yellow-400">
-                    {user.nombre} {user.apellido}
-                  </span>
-                </h1>
+                 <span className="welcome-text">
+                  Bienvenido/a PUMA,
+                 </span>
+                  <br />
+                <span className="typing-puma bg-gradient-to-r from-violet-500 to-yellow-400 bg-clip-text text-transparent">
+                 {user.nombre} {user.apellido}
+                </span>
+               </h1>
+
+
                 <p className="text-xl text-blue-100 mb-8 max-w-lg text-justify">
                   ¡Bienvenido a Pu-Market! Sumérgete en una vibrante comunidad
                   universitaria donde puedes explorar productos únicos, comprar
@@ -183,8 +188,8 @@ export default function Dashboard() {
         </section>
 
         {/* PRODUCTOS */}
-        <div className="bg-gray-100 container mx-auto px-4 py-6">
-          <h2 className="text-2xl font-bold mb-6 text-textdark text-center">
+        <div className="bg-gray-100 container mx-auto px-4 py-6 ">
+          <h2 className="text-2xl font-bold mb-6 text-textdark text-center transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
             Productos Disponibles
           </h2>
           {filteredProducts.length > 0 ? (
@@ -192,7 +197,7 @@ export default function Dashboard() {
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-lg shadow p-4 flex flex-col"
+                  className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
                 >
                   <img
                     src={
@@ -210,7 +215,7 @@ export default function Dashboard() {
                   <h3 className="mt-4 text-lg font-semibold text-textdark">
                     {product.nombre}
                   </h3>
-                  <p className="mt-2 text-sm text-textdark line-clamp-2">
+                  <p className="mt-2 text-sm text-textdark whitespace-normal break-words text-justify">
                     {product.descripcion}
                   </p>
                   <p className="mt-2 text-textdark">
