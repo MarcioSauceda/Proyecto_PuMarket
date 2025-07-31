@@ -1,7 +1,6 @@
-import React from "react";
-import AdminSidebar from "../../components/admin/AdminSidebar";
-import AdminHeader from "../../components/admin/AdminHeader";
 import { FaDollarSign } from "react-icons/fa";
+import AdminHeader from "../../components/admin/AdminHeader";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const VentasComprasPage = () => {
   return (
@@ -13,7 +12,7 @@ const VentasComprasPage = () => {
           <h1 className="mb-6 text-2xl font-semibold text-textdark">
             Ventas y Compras
           </h1>
-          <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-softgray hover:shadow-md">
+          <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-greylight">

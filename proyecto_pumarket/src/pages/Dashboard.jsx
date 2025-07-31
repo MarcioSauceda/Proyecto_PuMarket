@@ -10,7 +10,7 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+
 
   // Obtener productos desde el backend excluyendo al vendedor actual
   useEffect(() => {
@@ -97,93 +97,25 @@ export default function Dashboard() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <span className="text-2xl font-semibold">Pu-Market</span>
           <div className="flex items-center space-x-4">
-            {/* Botón desplegable con estilo de <select> */}
-            <div className="relative">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="w-38 h-10 border-2 border-white focus:outline-none text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between"
-              >
-                Categorias ▼
-              </button>
-              {dropdownOpen && (
-                <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
-                  <ul className="py-1">
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Mis Compras");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Mis Compras
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Mis Ventas");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Mis Ventas
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Favoritos
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Otras
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Nose
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Otras
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Otras
-                    </li>
-                    <li
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        console.log("Favoritos");
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      Otras
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
+           {/* Botón desplegable con hover */}
+<div className="relative group">
+  <div
+    className="w-38 h-10 text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between py-2.5 px-6 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white font-semibold text-center shadow-xs transition-all duration-500 cursor-default"
+  >
+    Categorías ▼
+  </div>
+
+  {/* Menú desplegable visible solo con hover */}
+  <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+    <ul className="py-1">
+      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Mis Compras</li>
+      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Mis Ventas</li>
+      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Favoritos</li>
+      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Otras</li>
+      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Nose</li>
+    </ul>
+  </div>
+</div>
 
             {/* Buscador */}
             <input
@@ -196,13 +128,13 @@ export default function Dashboard() {
             />
             <Link
               to="/profile"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Ver Perfil
             </Link>
             <button
               onClick={handleLogout}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Cerrar Sesión
             </button>
@@ -222,11 +154,16 @@ export default function Dashboard() {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="lg:w-1/2 mb-12 lg:mb-0">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                  Bienvenido/a PUMA,{" "}
-                  <span className="gradient-text bg-gradient-to-r from-pink-500 to-yellow-500">
-                    {user.nombre} {user.apellido}
-                  </span>
-                </h1>
+                 <span className="welcome-text">
+                  Bienvenido/a PUMA,
+                 </span>
+                  <br />
+                <span className="typing-puma bg-gradient-to-r from-violet-500 to-yellow-400 bg-clip-text text-transparent">
+                 {user.nombre} {user.apellido}
+                </span>
+               </h1>
+
+
                 <p className="text-xl text-blue-100 mb-8 max-w-lg text-justify">
                   ¡Bienvenido a Pu-Market! Sumérgete en una vibrante comunidad
                   universitaria donde puedes explorar productos únicos, comprar
@@ -249,12 +186,12 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-100 to-transparent"></div>
         </section>
 
         {/* PRODUCTOS */}
-        <div className="container mx-auto px-4 py-6">
-          <h2 className="text-2xl font-bold mb-6 text-textdark text-center">
+        <div className="bg-gray-100 container mx-auto px-4 py-6 ">
+          <h2 className="text-2xl font-bold mb-6 text-textdark text-center transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
             Productos Disponibles
           </h2>
           {filteredProducts.length > 0 ? (
@@ -262,7 +199,7 @@ export default function Dashboard() {
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-lg shadow p-4 flex flex-col"
+                  className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
                 >
                   <img
                     src={
@@ -280,7 +217,7 @@ export default function Dashboard() {
                   <h3 className="mt-4 text-lg font-semibold text-textdark">
                     {product.nombre}
                   </h3>
-                  <p className="mt-2 text-sm text-textdark line-clamp-2">
+                  <p className="mt-2 text-sm text-textdark whitespace-normal break-words text-justify">
                     {product.descripcion}
                   </p>
                   <p className="mt-2 text-textdark">

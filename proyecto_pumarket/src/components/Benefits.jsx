@@ -1,10 +1,9 @@
-import React from "react";
 
 const Benefits = () => {
   return (
     <section className="py-12 px-4 sm:px-8 text-center">
       <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-10">
-        ¿Por qué usar Pumarket?
+        ¿Por qué usar Pu-Market?
       </h3>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div className="bg-[#FFCC00] p-6 rounded shadow hover:scale-105 transition">

@@ -22,7 +22,8 @@ const Navbar = () => {
       <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0 sm:gap-4">
         <button
           onClick={() => navigate("/login")} // aquí redirigimos a /login
-          className="bg-[#FFCC00] text-[#002664] px-4 py-2 rounded font-semibold text-sm sm:text-base"
+         className="bg-gradient-to-r from-violet-600 to-yellow-400 text-white px-4 py-2 rounded font-semibold text-sm sm:text-base shadow-xs transition-all duration-500 hover:bg-gradient-to-l cursor-pointer"
+
         >
           Iniciar Sesión
         </button>

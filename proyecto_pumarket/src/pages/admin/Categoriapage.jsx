@@ -1,6 +1,5 @@
-import React from "react";
-import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const CategoriaPage = () => {
   return (
@@ -16,7 +15,7 @@ const CategoriaPage = () => {
         <main className="min-h-screen p-6 bg-bglight">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-            <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-softgray hover:shadow-md">
+            <div className="p-6 transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-greylight">
@@ -43,7 +42,7 @@ const CategoriaPage = () => {
           </div>
 
           {/* Categorías Disponibles */}
-          <div className="bg-white rounded-xl shadow-sm border border-softgray p-6 mb-6 w-full lg:w-[290px]">
+          <div className="bg-white rounded-xl shadow-sm border border-greylight p-6 mb-6 w-full lg:w-[290px]">
             <h3 className="mb-4 text-lg font-semibold text-textdark">
               Categorías Disponibles
             </h3>

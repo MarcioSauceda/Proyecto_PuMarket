@@ -59,19 +59,19 @@ export default function ReseñasPerfil() {
           <div className="flex items-center space-x-3">
             <Link
               to="/profile"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Volver Perfil
             </Link>
             <Link
               to="/messages"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Mensajería
             </Link>
             <button
               onClick={handleLogout}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Cerrar Sesión
             </button>
