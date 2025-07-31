@@ -1,4 +1,4 @@
-import { FaEdit, FaEye, FaTrash, FaUserFriends } from "react-icons/fa";
+import { FaEdit, FaTrash, FaUserFriends } from "react-icons/fa";
 import AdminHeader from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 
@@ -10,7 +10,6 @@ const UsuariosPage = () => {
       date: "May 22, 2025",
       compras: "0 Productos",
       ventas: "2 Productos",
-      valoracion: "5.7 Estrellas",
     },
     {
       name: "Cristofer",
@@ -18,7 +17,6 @@ const UsuariosPage = () => {
       date: "May 22, 2025",
       compras: "0 Productos",
       ventas: "2 Productos",
-      valoracion: "5.7 Estrellas",
     },
     {
       name: "Marcio",
@@ -26,7 +24,6 @@ const UsuariosPage = () => {
       date: "May 22, 2025",
       compras: "0 Productos",
       ventas: "2 Productos",
-      valoracion: "5.7 Estrellas",
     },
     {
       name: "Henry",
@@ -34,16 +31,15 @@ const UsuariosPage = () => {
       date: "May 22, 2025",
       compras: "0 Productos",
       ventas: "2 Productos",
-      valoracion: "5.7 Estrellas",
     },
   ];
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <AdminSidebar />
-      <div className="flex-1 ml-64">
+      <div className="flex-1 ml-64 bg-slate-100">
         <AdminHeader />
-        <main className="min-h-screen p-6 bg-bglight">
+        <main className="min-h-screen p-6 bg-slate-100">
           {/* Stats Card */}
           <div className="w-full p-6 mb-6 bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md md:w-64">
             <div className="flex items-center justify-between">
@@ -54,15 +50,7 @@ const UsuariosPage = () => {
                 <p className="mt-1 text-2xl font-bold text-textdark">
                   4 <span className="font-semibold">Usuarios</span>
                 </p>
-                <div className="flex items-center mt-2">
-                  <span className="flex items-center text-sm font-medium text-green-600">
-                    <FaUserFriends className="mr-1" />
-                    8%
-                  </span>
-                  <span className="ml-2 text-sm text-greylight">
-                    vs último mes
-                  </span>
-                </div>
+
               </div>
               <div className="flex items-center justify-center w-10 h-10 mt-1 ml-2 rounded-md bg-accent bg-opacity-20">
                 <FaUserFriends className="text-lg text-accent" />
@@ -91,9 +79,6 @@ const UsuariosPage = () => {
                   </th>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
                     Ventas
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
-                    Valoracion
                   </th>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
                     Acciones
@@ -127,14 +112,8 @@ const UsuariosPage = () => {
                     <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
                       {user.ventas}
                     </td>
-                    <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
-                      {user.valoracion}
-                    </td>
                     <td className="px-6 py-4 text-sm text-center whitespace-nowrap">
                       <div className="flex justify-center space-x-4">
-                        <button className="text-accent hover:text-accent/80">
-                          <FaEye />
-                        </button>
                         <button className="text-textdark hover:text-greymid">
                           <FaEdit />
                         </button>
@@ -150,14 +129,6 @@ const UsuariosPage = () => {
           </div>
 
           {/* Additional Info */}
-          <div className="p-6 bg-white border shadow-sm rounded-xl border-softgray">
-            <h3 className="text-lg font-semibold text-textdark">
-              Información Adicional
-            </h3>
-            <p className="mt-2 text-sm text-greylight">
-              Placeholder for additional dashboard content or widgets.
-            </p>
-          </div>
         </main>
       </div>
     </div>
