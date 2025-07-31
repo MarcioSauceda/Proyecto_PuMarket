@@ -1,10 +1,6 @@
-import React from "react";
-import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
+import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminStatsCard from "../../components/admin/AdminStatsCard";
-import AdminLatestProducts from "../../components/admin/AdminLatestProducts";
-import AdminUsersTable from "../../components/admin/AdminUsersTable";
-import AdminAdditionalInfo from "../../components/admin/AdminAdditionalInfo";
 
 const AdminDashboard = () => {
   return (
@@ -39,9 +35,6 @@ const AdminDashboard = () => {
               iconColor="text-primary"
             />
           </div>
-          <AdminLatestProducts />
-          <AdminUsersTable />
-          <AdminAdditionalInfo />
         </main>
       </div>
     </div>

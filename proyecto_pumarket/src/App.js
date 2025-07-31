@@ -11,17 +11,18 @@ import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
+import LoginAdmin from "./pages/LoginAdmin";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 // Admin pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoriaPage from "./pages/admin/Categoriapage";
-import Usuariospage from "./pages/admin/Usuariospage";
-import ReportesPage from "./pages/admin/Reportespage";
-import Ventascompras from "./pages/admin/Ventascompras";
-import Productosdisponibles from "./pages/admin/Productosdisponibles";
 import Opcionespage from "./pages/admin/Opcionespage";
+import Productosdisponibles from "./pages/admin/Productosdisponibles";
+import ReportesPage from "./pages/admin/Reportespage";
+import Usuariospage from "./pages/admin/Usuariospage";
+import Ventascompras from "./pages/admin/Ventascompras";
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/historialventas" element={<HistorialVentas />} />
           <Route path="/historialcompras" element={<HistorialCompras />} />
+          <Route path="/loginadmin" element={<LoginAdmin />} />
+
 
           {/* Vendor profile routes */}
           <Route path="/profilevendedor" element={<ProfileVendedor />} />
@@ -49,6 +52,7 @@ function App() {
           />
 
           {/* Admin routes */}
+          
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/categorias" element={<CategoriaPage />} />
           <Route path="/admin/usuarios" element={<Usuariospage />} />

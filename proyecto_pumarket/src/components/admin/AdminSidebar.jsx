@@ -3,10 +3,9 @@ import { ReactComponent as Logo } from "../../assets/logoPuma3.svg"; // Ajusta l
 // Usamos react-icons para los íconos
 import {
   FaChartLine,
-  FaCogs,
   FaTachometerAlt,
   FaTags,
-  FaUserFriends,
+  FaUserFriends
 } from "react-icons/fa";
 
 const navItems = [
@@ -14,7 +13,6 @@ const navItems = [
   { to: "/admin/usuarios", Icon: FaUserFriends, label: "Usuarios" },
   { to: "/admin/reportes", Icon: FaChartLine, label: "Reportes" },
   { to: "/admin/categorias", Icon: FaTags, label: "Categorías" },
-  { to: "/admin/opciones", Icon: FaCogs, label: "Opciones" },
 ];
 
 const EnhancedAdminSidebar = () => (

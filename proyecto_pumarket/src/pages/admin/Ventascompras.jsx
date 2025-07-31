@@ -8,7 +8,7 @@ const VentasComprasPage = () => {
       <AdminSidebar />
       <div className="flex-1 ml-64">
         <AdminHeader />
-        <main className="min-h-screen p-6 bg-bglight">
+        <main className="min-h-screen p-6 bg-slate-100">
           <h1 className="mb-6 text-2xl font-semibold text-textdark">
             Ventas y Compras
           </h1>
@@ -21,15 +21,6 @@ const VentasComprasPage = () => {
                 <p className="mt-2 text-3xl font-bold text-textdark">
                   27 Productos
                 </p>
-                <div className="flex items-center mt-2">
-                  <span className="flex items-center text-sm font-medium text-green-600">
-                    <FaDollarSign className="mr-1" />
-                    12%
-                  </span>
-                  <span className="ml-2 text-sm text-greylight">
-                    vs último mes
-                  </span>
-                </div>
               </div>
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary bg-opacity-10">
                 <FaDollarSign className="text-xl text-primary" />

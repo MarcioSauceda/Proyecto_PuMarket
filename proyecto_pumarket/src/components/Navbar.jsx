@@ -21,17 +21,11 @@ const Navbar = () => {
       </div>
       <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0 sm:gap-4">
         <button
-          onClick={() => navigate("/login")} // aquí redirigimos a /login
-         className="bg-gradient-to-r from-violet-600 to-yellow-400 text-white px-4 py-2 rounded font-semibold text-sm sm:text-base shadow-xs transition-all duration-500 hover:bg-gradient-to-l cursor-pointer"
+          onClick={() => navigate("/loginadmin")} // aquí redirigimos a /login
+         className="border border-white px-4 py-2 rounded text-sm sm:text-base"
 
         >
-          Iniciar Sesión
-        </button>
-        <button
-          onClick={() => navigate("/register")} // opcional: similar para registro
-          className="border border-white px-4 py-2 rounded text-sm sm:text-base"
-        >
-          Registrarse
+          Administrador
         </button>
       </div>
     </nav>

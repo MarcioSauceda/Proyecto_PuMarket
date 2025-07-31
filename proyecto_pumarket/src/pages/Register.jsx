@@ -129,7 +129,7 @@ export default function Register() {
                 htmlFor="idNumber"
                 className="block text-sm font-medium mb-2 text-textdark"
               >
-                Número de Identificación:
+                Número de Cuenta:
               </label>
               <input
                 type="text"
