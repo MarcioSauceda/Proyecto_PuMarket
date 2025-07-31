@@ -164,10 +164,10 @@ export default function ChatConversacion() {
                   : "bg-gray-200 text-left mr-auto"
               }`}
             >
-              <div className="text-sm font-semibold text-primary">
+              <div className="text-sm font-semibold text-primary text-black">
                 {msg.emisor?.nombre}
               </div>
-              <div>{msg.contenido}</div>
+              <div className="text-black">{msg.contenido}</div>
               <div className="text-xs text-gray-500">
                 {new Date(msg.fechaEnvio).toLocaleString("es-HN")}
               </div>

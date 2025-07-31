@@ -24,6 +24,8 @@ import Ventascompras from "./pages/admin/Ventascompras";
 import Productosdisponibles from "./pages/admin/Productosdisponibles";
 import Opcionespage from "./pages/admin/Opcionespage";
 
+//historial compra venta
+
 function App() {
   return (
     <AuthProvider>
@@ -44,6 +46,7 @@ function App() {
           <Route path="/messages" element={<MisConversaciones />} />
           <Route path="/historialventas" element={<HistorialVentas />} />
           <Route path="/historialcompras" element={<HistorialCompras />} />
+          {/* historial routes */}
 
           {/* Vendor profile routes */}
 

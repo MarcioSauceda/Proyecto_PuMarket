@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AddProductModal from "../components/AddProductModal";
 import ProductDetailModal from "../components/ProductDetailModal";
+import MarcarComoVendidoModal from "../components/modalConversaciones/MarcarComoVendidoModal"; // <-- Nuevo import
 import { useAuth } from "../context/AuthContext";
 
 export default function Profile() {
@@ -13,6 +14,8 @@ export default function Profile() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSoldModalOpen, setIsSoldModalOpen] = useState(false); // <-- Nuevo estado
+  const [productToSell, setProductToSell] = useState(null); // <-- Nuevo estado
 
   useEffect(() => {
     const fetchUserProducts = async () => {
@@ -117,6 +120,22 @@ export default function Profile() {
     setSelectedProduct(null);
     setIsEditing(false);
   };
+
+  // NUEVO: función para refrescar productos después de marcar como vendido
+  const reloadProducts = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/productos/vendedor/${user.id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUserProducts(data);
+      }
+    } catch (error) {
+      // ya maneja error
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* NAVBAR */}
@@ -164,8 +183,6 @@ export default function Profile() {
           {/* Encabezado superior: título y botón de reseñas */}
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-2xl font-bold text-textdark">Mis productos</h2>
-
-            {/* Botón de Reseñas */}
             <Link
               to="/reseñasperfil"
               className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
@@ -257,7 +274,10 @@ export default function Profile() {
 
                   {/* Botón Marcar como vendido */}
                   <button
-                    onClick={() => setIsAddModalOpen(true)}
+                    onClick={() => {
+                      setProductToSell(product);
+                      setIsSoldModalOpen(true);
+                    }}
                     className="w-full px-3 py-1 bg-primary text-white rounded hover:opacity-90"
                   >
                     Marcar como vendido
@@ -303,8 +323,15 @@ export default function Profile() {
           onEditProduct={() => {}}
         />
       )}
+
+      {/* MODAL MARCAR COMO VENDIDO */}
+      {isSoldModalOpen && productToSell && (
+        <MarcarComoVendidoModal
+          product={productToSell}
+          onClose={() => setIsSoldModalOpen(false)}
+          onSold={reloadProducts}
+        />
+      )}
     </div>
   );
 }
-
-/*className="flex-1 px-3 py-1 bg-primary text-white rounded hover:opacity-90"*/

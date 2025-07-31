@@ -10,9 +10,9 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [categorias, setCategorias] = useState([]);
 
-
-  // Obtener productos desde el backend excluyendo al vendedor actual
+  // Fetch productos excluyendo los del usuario actual
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -23,16 +23,32 @@ export default function Dashboard() {
           const data = await response.json();
           setProducts(data);
         } else {
-          console.error("Error al obtener productos");
           setProducts([]);
         }
-      } catch (error) {
-        console.error("Error de conexión:", error);
+      } catch {
         setProducts([]);
       }
     };
     if (user?.id) fetchProducts();
   }, [user]);
+
+  // Fetch categorías
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/api/categorias");
+        if (res.ok) {
+          const data = await res.json();
+          setCategorias(data);
+        } else {
+          setCategorias([]);
+        }
+      } catch {
+        setCategorias([]);
+      }
+    };
+    fetchCategorias();
+  }, []);
 
   if (!user) {
     navigate("/");
@@ -97,25 +113,30 @@ export default function Dashboard() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <span className="text-2xl font-semibold">Pu-Market</span>
           <div className="flex items-center space-x-4">
-           {/* Botón desplegable con hover */}
-<div className="relative group">
-  <div
-    className="w-38 h-10 text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between py-2.5 px-6 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white font-semibold text-center shadow-xs transition-all duration-500 cursor-default"
-  >
-    Categorías ▼
-  </div>
+            {/* Botón desplegable de categorías */}
+            <div className="relative group">
+              <div className="w-38 h-10 text-white bg-primary rounded px-2 md:px-3 tracking-wider flex items-center justify-between py-2.5 px-6 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white font-semibold text-center shadow-xs transition-all duration-500 cursor-default">
+                Categorías ▼
+              </div>
 
-  {/* Menú desplegable visible solo con hover */}
-  <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-    <ul className="py-1">
-      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Mis Compras</li>
-      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Mis Ventas</li>
-      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Favoritos</li>
-      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Otras</li>
-      <li className="px-4 py-2 hover:bg-gray-100 cursor-default">Nose</li>
-    </ul>
-  </div>
-</div>
+              {/* Menú desplegable visible solo con hover */}
+              <div className="absolute mt-1 w-40 bg-white text-black rounded shadow-lg z-50 border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                <ul className="py-1">
+                  {categorias.length === 0 ? (
+                    <li className="px-4 py-2 text-gray-500">Sin categorías</li>
+                  ) : (
+                    categorias.map((cat) => (
+                      <li
+                        key={cat.idCategoria || cat.id || cat.nombre}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-default"
+                      >
+                        {cat.nombre}
+                      </li>
+                    ))
+                  )}
+                </ul>
+              </div>
+            </div>
 
             {/* Buscador */}
             <input
@@ -154,15 +175,12 @@ export default function Dashboard() {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="lg:w-1/2 mb-12 lg:mb-0">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                 <span className="welcome-text">
-                  Bienvenido/a PUMA,
-                 </span>
+                  <span className="welcome-text">Bienvenido/a PUMA,</span>
                   <br />
-                <span className="typing-puma bg-gradient-to-r from-violet-500 to-yellow-400 bg-clip-text text-transparent">
-                 {user.nombre} {user.apellido}
-                </span>
-               </h1>
-
+                  <span className="typing-puma bg-gradient-to-r from-violet-500 to-yellow-400 bg-clip-text text-transparent">
+                    {user.nombre} {user.apellido}
+                  </span>
+                </h1>
 
                 <p className="text-xl text-blue-100 mb-8 max-w-lg text-justify">
                   ¡Bienvenido a Pu-Market! Sumérgete en una vibrante comunidad
