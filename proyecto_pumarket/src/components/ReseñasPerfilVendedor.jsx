@@ -1,5 +1,5 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function DejarResena() {
@@ -84,7 +84,7 @@ export default function DejarResena() {
           <span className="text-2xl font-semibold">Dejar una reseña</span>
           <Link
             to={`/perfil-vendedor/${correo}`}
-            className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
           >
             Volver al Perfil
           </Link>

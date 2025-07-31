@@ -23,7 +23,7 @@ export default function Register() {
       setEmailError(
         emailRegex.test(value)
           ? ""
-          : "El correo debe tener el formato @unah.hn o @edu.unah.hn"
+          : "El correo debe tener el formato @unah.hn o @unah.edu.hn"
       );
     }
   };

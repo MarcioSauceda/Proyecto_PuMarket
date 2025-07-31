@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function HistorialVentas() {
   const { user } = useAuth();

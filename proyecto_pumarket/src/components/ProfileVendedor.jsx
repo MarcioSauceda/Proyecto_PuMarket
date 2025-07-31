@@ -1,5 +1,7 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductDetailModal from "../components/ProductDetailModal";
 import { useAuth } from "../context/AuthContext";
 
@@ -77,15 +79,9 @@ export default function ProfileVendedor() {
             />
             <Link
               to="/dashboard"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Volver Dashboard
-            </Link>
-            <Link
-              to="/messages"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-            >
-              Mensajería
             </Link>
           </div>
         </div>
@@ -100,13 +96,13 @@ export default function ProfileVendedor() {
           <div className="flex space-x-2">
             <Link
               to={`/verreseñasvendedor/${vendedor.correoInstitucional}`}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
             >
               Ver Reseñas
             </Link>
             <Link
               to={`/reseñasperfilvendedor/${vendedor.correoInstitucional}`}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="p-2 text-black border border-greylight rounded-xl shadow-sm transition-all duration-100 bg-transparent hover:bg-gradient-to-r hover:from-violet-600 hover:to-yellow-400 hover:text-white hover:shadow-md font-semibold"
             >
               Dejar Reseña
             </Link>
@@ -119,24 +115,52 @@ export default function ProfileVendedor() {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-lg shadow p-4 flex flex-col"
+                className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
               >
-                <img
-                  src={
-                    product.imagenes && product.imagenes.length > 0
-                      ? typeof product.imagenes[0] === "string"
-                        ? product.imagenes[0]
-                        : product.imagenes[0].urlImagen ||
-                          "https://via.placeholder.com/300x200"
-                      : "https://via.placeholder.com/300x200"
-                  }
-                  alt={product.nombre}
-                  className="w-full h-48 object-cover rounded cursor-pointer"
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setIsDetailModalOpen(true);
-                  }}
-                />
+                {product.imagenes && product.imagenes.length > 1 ? (
+  <Carousel
+    showThumbs={false}
+    showStatus={false}
+    infiniteLoop
+    className="rounded cursor-pointer"
+    onClickItem={() => {
+      setSelectedProduct(product);
+      setIsDetailModalOpen(true);
+    }}
+  >
+    {product.imagenes.map((img, index) => {
+      const url =
+        typeof img === "string"
+          ? img
+          : img.urlImagen || "https://via.placeholder.com/300x200";
+      return (
+        <div key={index}>
+          <img
+            src={url}
+            alt={`${product.nombre} ${index + 1}`}
+            className="w-full h-48 object-cover rounded"
+          />
+        </div>
+      );
+    })}
+  </Carousel>
+) : (
+  <img
+    src={
+      product.imagenes && product.imagenes.length > 0
+        ? typeof product.imagenes[0] === "string"
+          ? product.imagenes[0]
+          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
+        : "https://via.placeholder.com/300x200"
+    }
+    alt={product.nombre}
+    className="w-full h-48 object-cover rounded cursor-pointer"
+    onClick={() => {
+      setSelectedProduct(product);
+      setIsDetailModalOpen(true);
+    }}
+  />
+)}
                 <div className="mt-4 flex-1 space-y-2">
                   <p className="text-textdark font-medium">{product.nombre}</p>
                   <p className="text-textdark text-sm line-clamp-2">

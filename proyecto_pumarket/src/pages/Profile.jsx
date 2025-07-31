@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import AddProductModal from "../components/AddProductModal";
 import ProductDetailModal from "../components/ProductDetailModal";
@@ -221,23 +223,52 @@ export default function Profile() {
                 key={product.id}
                 className="bg-white rounded-lg shadow p-4 flex flex-col"
               >
-                <img
-                  src={
-                    product.imagenes && product.imagenes.length > 0
-                      ? typeof product.imagenes[0] === "string"
-                        ? product.imagenes[0]
-                        : product.imagenes[0].urlImagen ||
-                          "https://via.placeholder.com/300x200"
-                      : "https://via.placeholder.com/300x200"
-                  }
-                  alt={product.nombre}
-                  className="w-full h-48 object-cover rounded cursor-pointer"
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setIsDetailModalOpen(true);
-                    setIsEditing(false);
-                  }}
-                />
+                {product.imagenes && product.imagenes.length > 1 ? (
+  <Carousel
+    showThumbs={false}
+    showStatus={false}
+    infiniteLoop
+    className="rounded cursor-pointer"
+    onClickItem={() => {
+      setSelectedProduct(product);
+      setIsDetailModalOpen(true);
+      setIsEditing(false);
+    }}
+  >
+    {product.imagenes.map((img, index) => {
+      const url =
+        typeof img === "string"
+          ? img
+          : img.urlImagen || "https://via.placeholder.com/300x200";
+      return (
+        <div key={index}>
+          <img
+            src={url}
+            alt={`${product.nombre} ${index + 1}`}
+            className="w-full h-48 object-cover rounded"
+          />
+        </div>
+      );
+    })}
+  </Carousel>
+) : (
+  <img
+    src={
+      product.imagenes && product.imagenes.length > 0
+        ? typeof product.imagenes[0] === "string"
+          ? product.imagenes[0]
+          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
+        : "https://via.placeholder.com/300x200"
+    }
+    alt={product.nombre}
+    className="w-full h-48 object-cover rounded cursor-pointer"
+    onClick={() => {
+      setSelectedProduct(product);
+      setIsDetailModalOpen(true);
+      setIsEditing(false);
+    }}
+  />
+)}
 
                 <div className="mt-4 flex-1 space-y-2">
                   <p className="text-textdark font-medium">{product.nombre}</p>

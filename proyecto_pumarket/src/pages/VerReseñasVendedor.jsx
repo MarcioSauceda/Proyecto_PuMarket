@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function VerReseñasVendedor() {
   const { correo } = useParams();
@@ -45,13 +45,13 @@ export default function VerReseñasVendedor() {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => navigate(-1)}
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Volver
             </button>
             <Link
               to="/dashboard"
-              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
             >
               Dashboard
             </Link>
@@ -75,7 +75,7 @@ export default function VerReseñasVendedor() {
                 {reseñas.map((r) => (
                   <div
                     key={r.id}
-                    className="bg-white rounded-lg shadow p-8 flex flex-col items-center"
+                    className="bg-white rounded-lg p-8 flex flex-col items-center transition-shadow border border-greylight shadow-sm hover:shadow-md"
                     style={{ minWidth: 300 }}
                   >
                     <p className="font-bold uppercase text-blue-600 text-lg text-center mb-2">

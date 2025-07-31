@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import ProductDetailModal from "../components/ProductDetailModal";
 import { useAuth } from "../context/AuthContext";
@@ -219,19 +221,44 @@ export default function Dashboard() {
                   key={product.id}
                   className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
                 >
-                  <img
-                    src={
-                      product.imagenes && product.imagenes.length > 0
-                        ? typeof product.imagenes[0] === "string"
-                          ? product.imagenes[0]
-                          : product.imagenes[0].urlImagen ||
-                            "https://via.placeholder.com/300x200"
-                        : "https://via.placeholder.com/300x200"
-                    }
-                    alt={product.nombre}
-                    className="w-full h-48 object-cover rounded cursor-pointer"
-                    onClick={() => handleViewProduct(product)}
-                  />
+                  {product.imagenes && product.imagenes.length > 1 ? (
+  <Carousel
+    showThumbs={false}
+    showStatus={false}
+    infiniteLoop
+    className="rounded cursor-pointer"
+    onClickItem={() => handleViewProduct(product)}
+  >
+    {product.imagenes.map((img, index) => {
+      const url =
+        typeof img === "string"
+          ? img
+          : img.urlImagen || "https://via.placeholder.com/300x200";
+      return (
+        <div key={index}>
+          <img
+            src={url}
+            alt={`${product.nombre} ${index + 1}`}
+            className="w-full h-48 object-cover rounded"
+          />
+        </div>
+      );
+    })}
+  </Carousel>
+) : (
+  <img
+    src={
+      product.imagenes && product.imagenes.length > 0
+        ? typeof product.imagenes[0] === "string"
+          ? product.imagenes[0]
+          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
+        : "https://via.placeholder.com/300x200"
+    }
+    alt={product.nombre}
+    className="w-full h-48 object-cover rounded cursor-pointer"
+    onClick={() => handleViewProduct(product)}
+  />
+)}
                   <h3 className="mt-4 text-lg font-semibold text-textdark">
                     {product.nombre}
                   </h3>
@@ -239,7 +266,7 @@ export default function Dashboard() {
                     {product.descripcion}
                   </p>
                   <p className="mt-2 text-textdark">
-                    <strong>Precio:</strong> ${product.precio}
+                    <strong>Precio:</strong> L.{product.precio}
                   </p>
                   <p className="text-textdark">
                     <strong>Vendedor:</strong>{" "}

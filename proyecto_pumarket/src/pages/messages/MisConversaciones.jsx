@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowLeft, FaSearch } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { FaSearch, FaArrowLeft } from "react-icons/fa";
 
 export default function MisConversaciones() {
   const { user } = useAuth();
@@ -41,6 +41,12 @@ export default function MisConversaciones() {
       <aside className="w-80 bg-white border-r border-greylight flex flex-col">
         <header className="flex items-center justify-between p-4 bg-primary text-white rounded-t-lg">
           <h2 className="text-lg font-semibold">Mensajería</h2>
+          <Link
+              to="/profile"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+            >
+              Volver Perfil
+            </Link>
         </header>
         {/* Buscador */}
         <div className="p-3 border-b border-greylight">

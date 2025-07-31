@@ -95,7 +95,7 @@ export default function ReseñasPerfil() {
                 {reseñas.map((r) => (
                   <div
                     key={r.id}
-                    className="bg-white rounded-lg shadow p-8 flex flex-col items-center"
+                    className="bg-white rounded-lg p-8 flex flex-col items-center transition-shadow border border-greylight shadow-sm hover:shadow-md"
                     style={{ minWidth: 300 }}
                   >
                     <p className="font-bold uppercase text-blue-600 text-lg text-center mb-2">

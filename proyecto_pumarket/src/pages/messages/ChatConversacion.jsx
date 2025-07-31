@@ -1,5 +1,5 @@
-import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function ChatConversacion() {
@@ -133,19 +133,24 @@ export default function ChatConversacion() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* Encabezado */}
-      <div className="bg-primary text-white p-4 flex items-center justify-between">
-        <span className="font-semibold">Conversación con {emailVendedor}</span>
-        <button
-          className="px-3 py-1 bg-accent text-textdark rounded"
-          onClick={() => window.history.back()}
-        >
-          Volver
-        </button>
-      </div>
+      {/* Navbar fijo */}
+<div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white p-4 flex items-center justify-between">
+  <span className="font-semibold">Conversación con {emailVendedor}</span>
+  <button
+    className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+    onClick={() => window.history.back()}
+  >
+    Volver
+  </button>
+</div>
+
+{/* Contenido debajo del navbar con espacio para que no se oculte */}
+<div className="pt-20">
+</div>
 
       {/* Error */}
       {error && (
-        <div className="text-red-600 text-center py-2 font-semibold bg-red-100">
+        <div className="text-red-600 text-center py-2 font-semibold bg-red-100 pt-16">
           {error}
         </div>
       )}
