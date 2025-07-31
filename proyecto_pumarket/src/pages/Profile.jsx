@@ -100,7 +100,7 @@ export default function Profile() {
             precio: updatedProduct.precio,
             categoria: { id: updatedProduct.categoriaId },
             vendedor: { id: user.id },
-            estadoDelProducto: updatedProduct.estadoDelProducto, // Si usas ese campo
+            estadoDelProducto: updatedProduct.estadoDelProducto,
           }),
         }
       );

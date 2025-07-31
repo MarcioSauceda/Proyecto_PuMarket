@@ -1,10 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProductDetailModal from "../components/ProductDetailModal";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProfileVendedor() {
   const { correo } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [vendedor, setVendedor] = useState(null);
   const [sellerProducts, setSellerProducts] = useState([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -13,7 +15,6 @@ export default function ProfileVendedor() {
 
   // Traer datos del vendedor y productos por correo
   useEffect(() => {
-    // Traer datos del vendedor
     const fetchVendedor = async () => {
       try {
         const res = await fetch(
@@ -28,7 +29,6 @@ export default function ProfileVendedor() {
       }
     };
 
-    // Traer productos del vendedor
     const fetchProducts = async () => {
       try {
         const res = await fetch(
@@ -49,7 +49,6 @@ export default function ProfileVendedor() {
     }
   }, [correo]);
 
-  // Filtro de productos
   const filteredProducts = sellerProducts.filter(
     (p) =>
       p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -94,17 +93,24 @@ export default function ProfileVendedor() {
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="container mx-auto px-4 py-6 flex-1">
-        {/* Botón de reseña */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-textdark">
             Productos de {vendedor.nombre}
           </h2>
-          <Link
-            to={`/reseñasperfilvendedor/${vendedor.correoInstitucional}`}
-            className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-          >
-            Dejar Reseña
-          </Link>
+          <div className="flex space-x-2">
+            <Link
+              to={`/verreseñasvendedor/${vendedor.correoInstitucional}`}
+              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            >
+              Ver Reseñas
+            </Link>
+            <Link
+              to={`/reseñasperfilvendedor/${vendedor.correoInstitucional}`}
+              className="px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+            >
+              Dejar Reseña
+            </Link>
+          </div>
         </div>
 
         {/* Grid de productos */}
@@ -140,16 +146,22 @@ export default function ProfileVendedor() {
                     Lps. {product.precio}
                   </p>
                 </div>
-                {/* Botón para enviar mensaje (por producto) */}
+                {/* Botón para enviar mensaje (solo si NO es el vendedor logueado) */}
                 <div className="mt-4 flex">
-                  <button
-                    onClick={() =>
-                      navigate(`/messages/${vendedor.correoInstitucional}`)
-                    }
-                    className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-                  >
-                    Enviar Mensaje
-                  </button>
+                  {user &&
+                    vendedor.correoInstitucional !==
+                      user.correoInstitucional && (
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/messages/${vendedor.correoInstitucional}?productoId=${product.id}&compradorId=${user.id}`
+                          )
+                        }
+                        className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+                      >
+                        Enviar Mensaje
+                      </button>
+                    )}
                 </div>
               </div>
             ))}

@@ -58,8 +58,10 @@ export default function Dashboard() {
     setIsDetailModalOpen(false);
     setSelectedProduct(null);
   };
-  const handleMessageSeller = (email) => {
-    navigate(`/messages/${email}`);
+  const handleMessageSeller = (email, productoId) => {
+    navigate(
+      `/messages/${email}?productoId=${productoId}&compradorId=${user.id}`
+    );
   };
   const handleViewSellerProfile = (email) => {
     navigate(`/perfil-vendedor/${email}`);
@@ -298,16 +300,19 @@ export default function Dashboard() {
                     </span>
                   </p>
                   <div className="mt-auto pt-4 flex space-x-2">
-                    <button
-                      onClick={() =>
-                        handleMessageSeller(
-                          product.vendedor.correoInstitucional
-                        )
-                      }
-                      className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
-                    >
-                      Enviar Mensaje
-                    </button>
+                    {product.vendedor.id !== user.id && (
+                      <button
+                        onClick={() =>
+                          handleMessageSeller(
+                            product.vendedor.correoInstitucional,
+                            product.id
+                          )
+                        }
+                        className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+                      >
+                        Enviar Mensaje
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
