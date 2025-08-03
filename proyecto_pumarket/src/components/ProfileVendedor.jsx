@@ -91,7 +91,7 @@ export default function ProfileVendedor() {
       <main className="container mx-auto px-4 py-6 flex-1">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-textdark">
-            Productos de {vendedor.nombre}
+            Productos de {vendedor.nombre} 
           </h2>
           <div className="flex space-x-2">
             <Link
@@ -167,7 +167,7 @@ export default function ProfileVendedor() {
                     {product.descripcion}
                   </p>
                   <p className="text-textdark font-semibold">
-                    Lps. {product.precio}
+                    L. {product.precio}
                   </p>
                 </div>
                 {/* Botón para enviar mensaje (solo si NO es el vendedor logueado) */}

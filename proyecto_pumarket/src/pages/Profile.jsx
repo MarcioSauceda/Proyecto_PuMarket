@@ -221,14 +221,14 @@ export default function Profile() {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-lg shadow p-4 flex flex-col"
+                className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
               >
                 {product.imagenes && product.imagenes.length > 1 ? (
   <Carousel
     showThumbs={false}
     showStatus={false}
     infiniteLoop
-    className="rounded cursor-pointer"
+    className="rounded" /* Clickeable las imagenes sin carrusel */
     onClickItem={() => {
       setSelectedProduct(product);
       setIsDetailModalOpen(true);
@@ -245,7 +245,7 @@ export default function Profile() {
           <img
             src={url}
             alt={`${product.nombre} ${index + 1}`}
-            className="w-full h-48 object-cover rounded"
+            className="w-full h-48 object-cover rounded" /* Aqui es para el tamaño de la IMAGEN **OBJECT-CONTAIN=IMAGEN COMPLETA** */
           />
         </div>
       );
@@ -261,7 +261,7 @@ export default function Profile() {
         : "https://via.placeholder.com/300x200"
     }
     alt={product.nombre}
-    className="w-full h-48 object-cover rounded cursor-pointer"
+    className="w-full h-48 object-cover rounded " /* Clickeable las imagenes sin carrusel */
     onClick={() => {
       setSelectedProduct(product);
       setIsDetailModalOpen(true);
@@ -276,7 +276,7 @@ export default function Profile() {
                     {product.descripcion}
                   </p>
                   <p className="text-textdark font-semibold">
-                    Lps. {product.precio}
+                    L. {product.precio}
                   </p>
                 </div>
 

@@ -266,7 +266,7 @@ export default function Dashboard() {
                     {product.descripcion}
                   </p>
                   <p className="mt-2 text-textdark">
-                    <strong>Precio:</strong> L.{product.precio}
+                    <strong>Precio:</strong> L. {product.precio}
                   </p>
                   <p className="text-textdark">
                     <strong>Vendedor:</strong>{" "}

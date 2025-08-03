@@ -16,17 +16,21 @@ export default function ChatConversacion() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [peticionEnviada, setPeticionEnviada] = useState(false);
+  const [otherParticipant, setOtherParticipant] = useState("");
 
-  // Detectar rol real según la URL (ahora se puede abrir como comprador o vendedor)
+  // Detectar rol y establecer el otro participante (inicialmente con correo, se actualiza con mensajes)
   useEffect(() => {
-    if (!compradorId || !emailVendedor || !productoId || peticionEnviada)
-      return;
+    if (!compradorId || !emailVendedor || !productoId || !user) return;
+  }, [compradorId, emailVendedor, productoId, user]);
+
+  // Crear o buscar conversación
+  useEffect(() => {
+    if (!compradorId || !emailVendedor || !productoId || peticionEnviada) return;
     setError(null);
 
     const crearOBuscarConversacion = async () => {
       setPeticionEnviada(true);
 
-      // Siempre usa el compradorId que viene por URL y el vendedor por params
       const body = {
         compradorId: Number(compradorId),
         vendedorEmail: emailVendedor,
@@ -61,32 +65,47 @@ export default function ChatConversacion() {
     crearOBuscarConversacion();
   }, [compradorId, emailVendedor, productoId, peticionEnviada]);
 
-  // Traer mensajes
+  // Polling para traer mensajes y determinar el otro participante
   useEffect(() => {
     if (!conversacionId) return;
-    setLoading(true);
-    setError(null);
 
-    const traerMensajes = async () => {
+    const fetchMensajes = async () => {
       try {
         const res = await fetch(
           `http://localhost:8080/api/mensajes/conversacion/${conversacionId}`
         );
-        if (!res.ok) {
+        if (res.ok) {
+          const data = await res.json();
+          setMensajes(data);
+          // Determinar el otro participante desde los mensajes recibidos
+          const receivedMessage = data.find(msg => msg.emisor?.id !== user.id);
+          if (receivedMessage && receivedMessage.emisor?.nombre && receivedMessage.emisor?.apellido) {
+            setOtherParticipant(`${receivedMessage.emisor.nombre} ${receivedMessage.emisor.apellido}`);
+          } else if (user.email === emailVendedor) {
+            const buyerRes = await fetch(`http://localhost:8080/api/usuarios/${compradorId}`);
+            if (buyerRes.ok) {
+              const buyerData = await buyerRes.json();
+              setOtherParticipant(`${buyerData.nombre || ''} ${buyerData.apellido || ''}`.trim() || buyerData.email || "Comprador");
+            }
+          } else {
+            setOtherParticipant(emailVendedor);
+          }
+          setLoading(false);
+        } else {
           setError("No se pudieron cargar los mensajes.");
           setLoading(false);
-          return;
         }
-        const data = await res.json();
-        setMensajes(data);
-        setLoading(false);
       } catch (e) {
         setError("Error de conexión al servidor.");
         setLoading(false);
       }
     };
-    traerMensajes();
-  }, [conversacionId]);
+
+    fetchMensajes();
+    const intervalId = setInterval(fetchMensajes, 1000); // Polling every 1 second
+
+    return () => clearInterval(intervalId);
+  }, [conversacionId, user.id, user.email, emailVendedor, compradorId]);
 
   // Enviar mensaje
   const handleSend = async (e) => {
@@ -107,11 +126,6 @@ export default function ChatConversacion() {
       });
       if (res.ok) {
         setInput("");
-        // Traer los mensajes de nuevo
-        const updated = await fetch(
-          `http://localhost:8080/api/mensajes/conversacion/${conversacionId}`
-        );
-        setMensajes(await updated.json());
       } else {
         setError("Error al enviar el mensaje.");
       }
@@ -133,20 +147,18 @@ export default function ChatConversacion() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* Encabezado */}
-      {/* Navbar fijo */}
-<div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white p-4 flex items-center justify-between">
-  <span className="font-semibold">Conversación con {emailVendedor}</span>
-  <button
-    className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
-    onClick={() => window.history.back()}
-  >
-    Volver
-  </button>
-</div>
+      <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white p-4 flex items-center justify-between">
+        <span className="font-semibold">Conversación con {otherParticipant}</span>
+        <button
+          className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+          onClick={() => window.history.back()}
+        >
+          Volver
+        </button>
+      </div>
 
-{/* Contenido debajo del navbar con espacio para que no se oculte */}
-<div className="pt-20">
-</div>
+      {/* Contenido debajo del navbar con espacio para que no se oculte */}
+      <div className="pt-20"></div>
 
       {/* Error */}
       {error && (
@@ -170,7 +182,7 @@ export default function ChatConversacion() {
               }`}
             >
               <div className="text-sm font-semibold text-primary text-black">
-                {msg.emisor?.nombre}
+                {msg.emisor?.nombre} {msg.emisor?.apellido}
               </div>
               <div className="text-black">{msg.contenido}</div>
               <div className="text-xs text-gray-500">
@@ -190,7 +202,7 @@ export default function ChatConversacion() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Escribe tu mensaje..."
-          className="flex-1 px-4 py-2 border rounded mr-2 focus:outline-none"
+          className="flex-1 px-4 py-2 border rounded mr-2 focus:outline-none text-black"
         />
         <button
           type="submit"

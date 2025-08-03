@@ -25,14 +25,36 @@ export default function MisConversaciones() {
     if (user?.id) fetchConversaciones();
   }, [user]);
 
-  // Filtrado de chats
+  // Filtrado de chats mejorado
   const filtered = conversaciones.filter((conv) => {
     const otro = conv.comprador.id === user.id ? conv.vendedor : conv.comprador;
-    return (
-      otro.nombre.toLowerCase().includes(search.toLowerCase()) ||
-      otro.apellido.toLowerCase().includes(search.toLowerCase()) ||
-      otro.correoInstitucional.toLowerCase().includes(search.toLowerCase())
-    );
+    const searchTerm = search.toLowerCase().trim();
+    
+    // Si no hay término de búsqueda, mostrar todo
+    if (!searchTerm) return true;
+    
+    // Búsqueda individual en cada campo del usuario
+    const nombreMatch = otro.nombre.toLowerCase().includes(searchTerm);
+    const apellidoMatch = otro.apellido.toLowerCase().includes(searchTerm);
+    const correoMatch = otro.correoInstitucional.toLowerCase().includes(searchTerm);
+    
+    // Búsqueda en nombre completo (nombre + apellido)
+    const nombreCompleto = `${otro.nombre} ${otro.apellido}`.toLowerCase();
+    const nombreCompletoMatch = nombreCompleto.includes(searchTerm);
+    
+    // También búsqueda en apellido + nombre (por si alguien busca así)
+    const apellidoNombre = `${otro.apellido} ${otro.nombre}`.toLowerCase();
+    const apellidoNombreMatch = apellidoNombre.includes(searchTerm);
+    
+    // Búsqueda en el producto
+    let productoMatch = false;
+    if (conv.producto) {
+      const productoNombre = conv.producto.nombre.toLowerCase();
+      const productoDescripcion = conv.producto.descripcion ? conv.producto.descripcion.toLowerCase() : "";
+      productoMatch = productoNombre.includes(searchTerm) || productoDescripcion.includes(searchTerm);
+    }
+    
+    return nombreMatch || apellidoMatch || correoMatch || nombreCompletoMatch || apellidoNombreMatch || productoMatch;
   });
 
   return (
@@ -54,7 +76,7 @@ export default function MisConversaciones() {
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
             <input
               type="text"
-              placeholder="Buscar chats..."
+              placeholder="Buscar por nombre, apellido, correo o producto..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-greylight rounded-lg bg-white text-primary focus:outline-none focus:ring-2 focus:ring-primary"
@@ -69,7 +91,7 @@ export default function MisConversaciones() {
             </li>
           ) : filtered.length === 0 ? (
             <li className="p-4 text-gray-400 text-center">
-              No tienes conversaciones
+              {search ? "No se encontraron conversaciones" : "No tienes conversaciones"}
             </li>
           ) : (
             filtered.map((conv) => {

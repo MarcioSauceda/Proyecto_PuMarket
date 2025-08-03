@@ -200,6 +200,7 @@ export default function AddProductModal({
           const nuevo = await response.json();
           onAddProduct(nuevo);
           onClose();
+          window.location.reload(); // Reload the page after successful save
         } else {
           const texto = await response.text();
           console.error("Error al guardar:", texto);
