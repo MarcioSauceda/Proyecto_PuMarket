@@ -1,38 +1,43 @@
-import { FaEdit, FaTrash, FaUserFriends } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaTrash, FaUserFriends } from "react-icons/fa";
 import AdminHeader from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const UsuariosPage = () => {
-  const users = [
-    {
-      name: "Spencer",
-      email: "Spencer@example.com",
-      date: "May 22, 2025",
-      compras: "0 Productos",
-      ventas: "2 Productos",
-    },
-    {
-      name: "Cristofer",
-      email: "Cristofer@example.com",
-      date: "May 22, 2025",
-      compras: "0 Productos",
-      ventas: "2 Productos",
-    },
-    {
-      name: "Marcio",
-      email: "Marcio@example.com",
-      date: "May 22, 2025",
-      compras: "0 Productos",
-      ventas: "2 Productos",
-    },
-    {
-      name: "Henry",
-      email: "Henry@example.com",
-      date: "May 22, 2025",
-      compras: "0 Productos",
-      ventas: "2 Productos",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar estudiantes al montar el componente
+  useEffect(() => {
+    fetch("http://localhost:8080/api/admin/estudiantes")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  // Función para eliminar usuario estudiante
+  const eliminarUsuario = async (id) => {
+    if (!window.confirm("¿Seguro que quieres eliminar este usuario?")) return;
+    try {
+      const res = await fetch(
+        `http://localhost:8080/api/admin/estudiantes/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (res.ok) {
+        setUsers(users.filter((u) => u.id !== id));
+      } else {
+        const errorMsg = await res.text();
+        alert(errorMsg);
+      }
+    } catch (error) {
+      alert("Error eliminando usuario");
+    }
+  };
 
   return (
     <div className="flex ">
@@ -48,9 +53,8 @@ const UsuariosPage = () => {
                   Total Usuarios Registrados
                 </p>
                 <p className="mt-1 text-2xl font-bold text-textdark">
-                  4 <span className="font-semibold">Usuarios</span>
+                  {users.length} <span className="font-semibold">Usuarios</span>
                 </p>
-
               </div>
               <div className="flex items-center justify-center w-10 h-10 mt-1 ml-2 rounded-md bg-accent bg-opacity-20">
                 <FaUserFriends className="text-lg text-accent" />
@@ -72,9 +76,6 @@ const UsuariosPage = () => {
                     Usuario
                   </th>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
-                    Fecha
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
                     Compras
                   </th>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
@@ -86,49 +87,58 @@ const UsuariosPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-softgray">
-                {users.map((user, idx) => (
-                  <tr key={idx} className="hover:bg-softgray">
-                    <td className="flex items-center px-6 py-4 whitespace-nowrap">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
-                        alt={user.name}
-                        className="w-8 h-8 mr-3 rounded-full"
-                      />
-                      <div>
-                        <div className="text-sm font-medium text-textdark">
-                          {user.name}
-                        </div>
-                        <div className="text-sm text-greylight">
-                          {user.email}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm whitespace-nowrap text-greylight">
-                      {user.date}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
-                      {user.compras}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
-                      {user.ventas}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-center whitespace-nowrap">
-                      <div className="flex justify-center space-x-4">
-                        <button className="text-textdark hover:text-greymid">
-                          <FaEdit />
-                        </button>
-                        <button className="text-error hover:text-error/80">
-                          <FaTrash />
-                        </button>
-                      </div>
+                {loading ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-8 text-greylight">
+                      Cargando usuarios...
                     </td>
                   </tr>
-                ))}
+                ) : users.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-8 text-greylight">
+                      No hay estudiantes registrados.
+                    </td>
+                  </tr>
+                ) : (
+                  users.map((user, idx) => (
+                    <tr key={user.id || idx} className="hover:bg-softgray">
+                      <td className="flex items-center px-6 py-4 whitespace-nowrap">
+                        <img
+                          src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
+                          alt={user.nombre}
+                          className="w-8 h-8 mr-3 rounded-full"
+                        />
+                        <div>
+                          <div className="text-sm font-medium text-textdark">
+                            {user.nombre} {user.apellido}
+                          </div>
+                          <div className="text-sm text-greylight">
+                            {user.correoInstitucional}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
+                        {user.compras + " Productos"}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-semibold whitespace-nowrap text-textdark">
+                        {user.ventas + " Productos"}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-center whitespace-nowrap">
+                        <div className="flex justify-center space-x-4">
+                          <button
+                            className="text-error hover:text-error/80"
+                            onClick={() => eliminarUsuario(user.id)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
-
-          {/* Additional Info */}
         </main>
       </div>
     </div>

@@ -21,10 +21,11 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoriaPage from "./pages/admin/Categoriapage";
 import Opcionespage from "./pages/admin/Opcionespage";
 import Productosdisponibles from "./pages/admin/Productosdisponibles";
-import ReportesPage from "./pages/admin/Reportespage";
 import Usuariospage from "./pages/admin/Usuariospage";
 import Ventascompras from "./pages/admin/Ventascompras";
-
+import EstadoProducto from "./pages/admin/EstadoProducto";
+import AdminVentasTable from "./components/admin/AdminVentasTable";
+import AdminProductosDisponibles from "./components/admin/AdminProductosDisponibles";
 //historial compra venta
 
 function App() {
@@ -68,11 +69,15 @@ function App() {
           />
 
           {/* Admin routes */}
+          <Route path="/dashboard-admin" element={<AdminDashboard />} />
+          <Route path="/admin/reportes" element={<AdminVentasTable />} />
+          <Route
+            path="/admin/productos-disponibles"
+            element={<AdminProductosDisponibles />}
+          />
 
-          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/categorias" element={<CategoriaPage />} />
           <Route path="/admin/usuarios" element={<Usuariospage />} />
-          <Route path="/admin/reportes" element={<ReportesPage />} />
           <Route
             path="/admin/reportes/ventas-compras"
             element={<Ventascompras />}
@@ -82,6 +87,9 @@ function App() {
             element={<Productosdisponibles />}
           />
           <Route path="/admin/opciones" element={<Opcionespage />} />
+          <Route path="/admin/estados-producto" element={<EstadoProducto />}>
+            {" "}
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>

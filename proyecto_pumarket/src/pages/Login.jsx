@@ -16,6 +16,12 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
+    // Validar dominio
+    if (!email.toLowerCase().endsWith("@unah.hn")) {
+      setError("Solo se permite iniciar sesión con correos @unah.hn");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8080/api/login", {
         method: "POST",

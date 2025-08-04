@@ -14,8 +14,8 @@ export function AuthProvider({ children }) {
     setLoading(false); // Ya terminó de cargar el usuario
   }, []);
 
-  const login = ({ id, correo, nombre, apellido }) => {
-    const userData = { id, correo, nombre, apellido };
+  const login = ({ id, correo, nombre, apellido, roles }) => {
+    const userData = { id, correo, nombre, apellido, roles };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };

@@ -48,7 +48,7 @@ export default function HistorialCompras() {
   }
 
   const handleViewSellerProfile = (correo) => {
-    navigate(`/profile/${correo}`);
+    navigate(`/perfil-vendedor/${correo}`);
   };
 
   return (

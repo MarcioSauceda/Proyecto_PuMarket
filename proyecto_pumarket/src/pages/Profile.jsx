@@ -3,8 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import AddProductModal from "../components/AddProductModal";
-import ProductDetailModal from "../components/ProductDetailModal";
-import MarcarComoVendidoModal from "../components/modalConversaciones/MarcarComoVendidoModal"; // <-- Nuevo import
+import MarcarComoVendidoModal from "../components/modalConversaciones/MarcarComoVendidoModal";
 import { useAuth } from "../context/AuthContext";
 
 export default function Profile() {
@@ -12,12 +11,11 @@ export default function Profile() {
   const navigate = useNavigate();
   const [userProducts, setUserProducts] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSoldModalOpen, setIsSoldModalOpen] = useState(false); // <-- Nuevo estado
-  const [productToSell, setProductToSell] = useState(null); // <-- Nuevo estado
+  const [isSoldModalOpen, setIsSoldModalOpen] = useState(false);
+  const [productToSell, setProductToSell] = useState(null);
 
   useEffect(() => {
     const fetchUserProducts = async () => {
@@ -159,19 +157,19 @@ export default function Profile() {
             />
             <Link
               to="/dashboard"
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Volver Dashboard
             </Link>
             <Link
               to="/messages"
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Mensajería
             </Link>
             <button
               onClick={handleLogout}
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Cerrar Sesión
             </button>
@@ -224,51 +222,43 @@ export default function Profile() {
                 className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
               >
                 {product.imagenes && product.imagenes.length > 1 ? (
-  <Carousel
-    showThumbs={false}
-    showStatus={false}
-    infiniteLoop
-    className="rounded" /* Clickeable las imagenes sin carrusel */
-    onClickItem={() => {
-      setSelectedProduct(product);
-      setIsDetailModalOpen(true);
-      setIsEditing(false);
-    }}
-  >
-    {product.imagenes.map((img, index) => {
-      const url =
-        typeof img === "string"
-          ? img
-          : img.urlImagen || "https://via.placeholder.com/300x200";
-      return (
-        <div key={index}>
-          <img
-            src={url}
-            alt={`${product.nombre} ${index + 1}`}
-            className="w-full h-48 object-cover rounded" /* Aqui es para el tamaño de la IMAGEN **OBJECT-CONTAIN=IMAGEN COMPLETA** */
-          />
-        </div>
-      );
-    })}
-  </Carousel>
-) : (
-  <img
-    src={
-      product.imagenes && product.imagenes.length > 0
-        ? typeof product.imagenes[0] === "string"
-          ? product.imagenes[0]
-          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
-        : "https://via.placeholder.com/300x200"
-    }
-    alt={product.nombre}
-    className="w-full h-48 object-cover rounded " /* Clickeable las imagenes sin carrusel */
-    onClick={() => {
-      setSelectedProduct(product);
-      setIsDetailModalOpen(true);
-      setIsEditing(false);
-    }}
-  />
-)}
+                  <Carousel
+                    showThumbs={false}
+                    showStatus={false}
+                    infiniteLoop
+                    className="rounded"
+                  >
+                    {product.imagenes.map((img, index) => {
+                      const url =
+                        typeof img === "string"
+                          ? img
+                          : img.urlImagen ||
+                            "https://via.placeholder.com/300x200";
+                      return (
+                        <div key={index}>
+                          <img
+                            src={url}
+                            alt={`${product.nombre} ${index + 1}`}
+                            className="w-full h-48 object-cover rounded"
+                          />
+                        </div>
+                      );
+                    })}
+                  </Carousel>
+                ) : (
+                  <img
+                    src={
+                      product.imagenes && product.imagenes.length > 0
+                        ? typeof product.imagenes[0] === "string"
+                          ? product.imagenes[0]
+                          : product.imagenes[0].urlImagen ||
+                            "https://via.placeholder.com/300x200"
+                        : "https://via.placeholder.com/300x200"
+                    }
+                    alt={product.nombre}
+                    className="w-full h-48 object-cover rounded"
+                  />
+                )}
 
                 <div className="mt-4 flex-1 space-y-2">
                   <p className="text-textdark font-medium">{product.nombre}</p>
@@ -343,15 +333,6 @@ export default function Profile() {
           isEditing={isEditing}
           productToEdit={selectedProduct}
           onEditProduct={handleEditProduct}
-        />
-      )}
-
-      {isDetailModalOpen && selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          isEditing={isEditing}
-          onClose={() => setIsDetailModalOpen(false)}
-          onEditProduct={() => {}}
         />
       )}
 

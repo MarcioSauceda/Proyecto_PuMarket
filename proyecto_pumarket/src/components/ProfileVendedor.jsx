@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ProductDetailModal from "../components/ProductDetailModal";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProfileVendedor() {
@@ -11,8 +10,6 @@ export default function ProfileVendedor() {
   const { user } = useAuth();
   const [vendedor, setVendedor] = useState(null);
   const [sellerProducts, setSellerProducts] = useState([]);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   // Traer datos del vendedor y productos por correo
@@ -79,7 +76,7 @@ export default function ProfileVendedor() {
             />
             <Link
               to="/dashboard"
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Volver Dashboard
             </Link>
@@ -91,7 +88,7 @@ export default function ProfileVendedor() {
       <main className="container mx-auto px-4 py-6 flex-1">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-textdark">
-            Productos de {vendedor.nombre} 
+            Productos de {vendedor.nombre}
           </h2>
           <div className="flex space-x-2">
             <Link
@@ -117,50 +114,45 @@ export default function ProfileVendedor() {
                 key={product.id}
                 className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
               >
+                {/* Carrusel de imágenes, sin onClick */}
                 {product.imagenes && product.imagenes.length > 1 ? (
-  <Carousel
-    showThumbs={false}
-    showStatus={false}
-    infiniteLoop
-    className="rounded cursor-pointer"
-    onClickItem={() => {
-      setSelectedProduct(product);
-      setIsDetailModalOpen(true);
-    }}
-  >
-    {product.imagenes.map((img, index) => {
-      const url =
-        typeof img === "string"
-          ? img
-          : img.urlImagen || "https://via.placeholder.com/300x200";
-      return (
-        <div key={index}>
-          <img
-            src={url}
-            alt={`${product.nombre} ${index + 1}`}
-            className="w-full h-48 object-cover rounded"
-          />
-        </div>
-      );
-    })}
-  </Carousel>
-) : (
-  <img
-    src={
-      product.imagenes && product.imagenes.length > 0
-        ? typeof product.imagenes[0] === "string"
-          ? product.imagenes[0]
-          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
-        : "https://via.placeholder.com/300x200"
-    }
-    alt={product.nombre}
-    className="w-full h-48 object-cover rounded cursor-pointer"
-    onClick={() => {
-      setSelectedProduct(product);
-      setIsDetailModalOpen(true);
-    }}
-  />
-)}
+                  <Carousel
+                    showThumbs={false}
+                    showStatus={false}
+                    infiniteLoop
+                    className="rounded"
+                  >
+                    {product.imagenes.map((img, index) => {
+                      const url =
+                        typeof img === "string"
+                          ? img
+                          : img.urlImagen ||
+                            "https://via.placeholder.com/300x200";
+                      return (
+                        <div key={index}>
+                          <img
+                            src={url}
+                            alt={`${product.nombre} ${index + 1}`}
+                            className="w-full h-48 object-cover rounded"
+                          />
+                        </div>
+                      );
+                    })}
+                  </Carousel>
+                ) : (
+                  <img
+                    src={
+                      product.imagenes && product.imagenes.length > 0
+                        ? typeof product.imagenes[0] === "string"
+                          ? product.imagenes[0]
+                          : product.imagenes[0].urlImagen ||
+                            "https://via.placeholder.com/300x200"
+                        : "https://via.placeholder.com/300x200"
+                    }
+                    alt={product.nombre}
+                    className="w-full h-48 object-cover rounded"
+                  />
+                )}
                 <div className="mt-4 flex-1 space-y-2">
                   <p className="text-textdark font-medium">{product.nombre}</p>
                   <p className="text-textdark text-sm line-clamp-2">
@@ -203,16 +195,6 @@ export default function ProfileVendedor() {
           © {new Date().getFullYear()} Pu-Market | Todos los derechos reservados
         </p>
       </footer>
-
-      {/* MODAL DE DETALLE */}
-      {isDetailModalOpen && selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          isEditing={false}
-          onClose={() => setIsDetailModalOpen(false)}
-          onEditProduct={() => {}}
-        />
-      )}
     </div>
   );
 }

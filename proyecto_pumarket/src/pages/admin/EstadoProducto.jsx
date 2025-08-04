@@ -1,52 +1,56 @@
 import { useEffect, useState } from "react";
 import AdminHeader from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
-import { FaBox } from "react-icons/fa";
-const CategoriaPage = () => {
-  const [categorias, setCategorias] = useState([]);
+import { FaCheckSquare } from "react-icons/fa"; // Usamos un ícono diferente
+
+const EstadoProductoPage = () => {
+  const [estados, setEstados] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [nuevaCategoria, setNuevaCategoria] = useState("");
+  const [nuevoEstado, setNuevoEstado] = useState("");
   const [editandoId, setEditandoId] = useState(null);
   const [editandoNombre, setEditandoNombre] = useState("");
   const [error, setError] = useState("");
 
-  // Traer categorías al cargar
+  // Traer estados al cargar
   useEffect(() => {
-    traerCategorias();
+    traerEstados();
   }, []);
 
-  const traerCategorias = () => {
+  const traerEstados = () => {
     setLoading(true);
-    fetch("http://localhost:8080/api/admin/categorias")
+    fetch("http://localhost:8080/api/admin/estados-producto")
       .then((res) => res.json())
-      .then((data) => setCategorias(data))
+      .then((data) => setEstados(data))
       .finally(() => setLoading(false));
   };
 
-  // Crear nueva categoría
-  const crearCategoria = async (e) => {
+  // Crear nuevo estado
+  const crearEstado = async (e) => {
     e.preventDefault();
     setError("");
-    if (!nuevaCategoria.trim()) return;
-    const res = await fetch("http://localhost:8080/api/admin/categorias", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre: nuevaCategoria }),
-    });
+    if (!nuevoEstado.trim()) return;
+    const res = await fetch(
+      "http://localhost:8080/api/admin/estados-producto",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: nuevoEstado }),
+      }
+    );
     if (!res.ok) {
       const msg = await res.text();
       setError(msg);
       return;
     }
-    setNuevaCategoria("");
-    traerCategorias();
+    setNuevoEstado("");
+    traerEstados();
   };
 
-  // Eliminar categoría
-  const eliminarCategoria = async (id) => {
-    if (!window.confirm("¿Eliminar esta categoría?")) return;
+  // Eliminar estado
+  const eliminarEstado = async (id) => {
+    if (!window.confirm("¿Eliminar este estado?")) return;
     const res = await fetch(
-      `http://localhost:8080/api/admin/categorias/${id}`,
+      `http://localhost:8080/api/admin/estados-producto/${id}`,
       {
         method: "DELETE",
       }
@@ -56,13 +60,13 @@ const CategoriaPage = () => {
       setError(msg);
       return;
     }
-    traerCategorias();
+    traerEstados();
   };
 
   // Iniciar edición
-  const iniciarEdicion = (categoria) => {
-    setEditandoId(categoria.id);
-    setEditandoNombre(categoria.nombre);
+  const iniciarEdicion = (estado) => {
+    setEditandoId(estado.id);
+    setEditandoNombre(estado.nombre);
     setError("");
   };
 
@@ -71,7 +75,7 @@ const CategoriaPage = () => {
     setError("");
     if (!editandoNombre.trim()) return;
     const res = await fetch(
-      `http://localhost:8080/api/admin/categorias/${id}`,
+      `http://localhost:8080/api/admin/estados-producto/${id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -85,7 +89,7 @@ const CategoriaPage = () => {
     }
     setEditandoId(null);
     setEditandoNombre("");
-    traerCategorias();
+    traerEstados();
   };
 
   return (
@@ -105,14 +109,14 @@ const CategoriaPage = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-greylight">
-                    Total Categorías
+                    Total Estados de Producto
                   </p>
                   <p className="mt-2 text-3xl font-bold text-textdark">
-                    {categorias.length} Categorías
+                    {estados.length} Estados
                   </p>
                 </div>
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-accent bg-opacity-20">
-                  <FaBox className="text-accent text-xl" />
+                  <FaCheckSquare className="text-accent text-xl" />
                 </div>
               </div>
             </div>
@@ -120,13 +124,13 @@ const CategoriaPage = () => {
 
           {/* Formulario agregar */}
           <div className="bg-white rounded-xl shadow-sm border border-greylight p-6 mb-6 w-full lg:w-[350px]">
-            <form className="flex mb-4" onSubmit={crearCategoria}>
+            <form className="flex mb-4" onSubmit={crearEstado}>
               <input
                 type="text"
-                value={nuevaCategoria}
-                onChange={(e) => setNuevaCategoria(e.target.value)}
+                value={nuevoEstado}
+                onChange={(e) => setNuevoEstado(e.target.value)}
                 className="flex-1 px-3 py-2 border rounded-l"
-                placeholder="Nueva categoría"
+                placeholder="Nuevo estado de producto"
               />
               <button
                 type="submit"
@@ -137,18 +141,18 @@ const CategoriaPage = () => {
             </form>
             {error && <div className="text-red-500 mb-2">{error}</div>}
             <h3 className="mb-4 text-lg font-semibold text-textdark">
-              Categorías Disponibles
+              Estados de Producto Disponibles
             </h3>
             {loading ? (
               <div>Cargando...</div>
             ) : (
               <ul className="space-y-3">
-                {categorias.map((cat) => (
+                {estados.map((estado) => (
                   <li
-                    key={cat.id}
+                    key={estado.id}
                     className="flex items-center justify-between"
                   >
-                    {editandoId === cat.id ? (
+                    {editandoId === estado.id ? (
                       <>
                         <input
                           type="text"
@@ -157,7 +161,7 @@ const CategoriaPage = () => {
                           className="flex-1 px-2 py-1 border rounded"
                         />
                         <button
-                          onClick={() => guardarEdicion(cat.id)}
+                          onClick={() => guardarEdicion(estado.id)}
                           className="ml-2 px-2 py-1 text-white bg-primary rounded"
                         >
                           Guardar
@@ -171,16 +175,16 @@ const CategoriaPage = () => {
                       </>
                     ) : (
                       <>
-                        <span className="text-textdark">{cat.nombre}</span>
+                        <span className="text-textdark">{estado.nombre}</span>
                         <div className="space-x-2">
                           <button
-                            onClick={() => iniciarEdicion(cat)}
+                            onClick={() => iniciarEdicion(estado)}
                             className="text-primary hover:underline"
                           >
                             Editar
                           </button>
                           <button
-                            onClick={() => eliminarCategoria(cat.id)}
+                            onClick={() => eliminarEstado(estado.id)}
                             className="text-error hover:underline"
                           >
                             Eliminar
@@ -199,4 +203,4 @@ const CategoriaPage = () => {
   );
 };
 
-export default CategoriaPage;
+export default EstadoProductoPage;

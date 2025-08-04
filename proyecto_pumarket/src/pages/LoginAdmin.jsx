@@ -17,7 +17,7 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/login", {
+      const response = await fetch("http://localhost:8080/api/login/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ correo: email, password }),
@@ -29,13 +29,24 @@ export default function Login() {
       }
 
       const usuario = await response.json();
+      console.log(usuario);
       login({
         id: usuario.id,
         correo: usuario.correoInstitucional,
         nombre: usuario.nombre,
         apellido: usuario.apellido,
+        roles: usuario.roles,
       });
-      navigate("/dashboard");
+
+      if (
+        usuario.roles &&
+        usuario.roles.some((rol) => rol.nombreRol === "ADMIN")
+      ) {
+        navigate("/dashboard-admin"); //la ruta de tu panel de admins
+      } else {
+        navigate("/"); // Ruta para los que no son administradores
+      }
+      // -------------------------------------
     } catch (err) {
       setError(err.message);
     }

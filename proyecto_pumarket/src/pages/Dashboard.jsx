@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import ProductDetailModal from "../components/ProductDetailModal";
 import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
@@ -10,8 +9,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [categorias, setCategorias] = useState([]);
 
   // Fetch productos excluyendo los del usuario actual
@@ -68,14 +65,6 @@ export default function Dashboard() {
       .some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const handleViewProduct = (product) => {
-    setSelectedProduct(product);
-    setIsDetailModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsDetailModalOpen(false);
-    setSelectedProduct(null);
-  };
   const handleMessageSeller = (email, productoId) => {
     navigate(
       `/messages/${email}?productoId=${productoId}&compradorId=${user.id}`
@@ -151,13 +140,13 @@ export default function Dashboard() {
             />
             <Link
               to="/profile"
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Ver Perfil
             </Link>
             <button
               onClick={handleLogout}
-              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-l"
+              className="py-2.5 px-4 text-sm rounded-lg bg-gradient-to-r from-violet-600 to-yellow-400 text-white cursor-pointer font-bold text-center shadow-xs transition-all duration-500 hover:bg-gradient-to-tr"
             >
               Cerrar Sesión
             </button>
@@ -222,43 +211,47 @@ export default function Dashboard() {
                   className="bg-white rounded-lg shadow p-4 flex flex-col transition-shadow bg-white border shadow-sm rounded-xl border-greylight hover:shadow-md"
                 >
                   {product.imagenes && product.imagenes.length > 1 ? (
-  <Carousel
-    showThumbs={false}
-    showStatus={false}
-    infiniteLoop
-    className="rounded cursor-pointer"
-    onClickItem={() => handleViewProduct(product)}
-  >
-    {product.imagenes.map((img, index) => {
-      const url =
-        typeof img === "string"
-          ? img
-          : img.urlImagen || "https://via.placeholder.com/300x200";
-      return (
-        <div key={index}>
-          <img
-            src={url}
-            alt={`${product.nombre} ${index + 1}`}
-            className="w-full h-48 object-cover rounded"
-          />
-        </div>
-      );
-    })}
-  </Carousel>
-) : (
-  <img
-    src={
-      product.imagenes && product.imagenes.length > 0
-        ? typeof product.imagenes[0] === "string"
-          ? product.imagenes[0]
-          : product.imagenes[0].urlImagen || "https://via.placeholder.com/300x200"
-        : "https://via.placeholder.com/300x200"
-    }
-    alt={product.nombre}
-    className="w-full h-48 object-cover rounded cursor-pointer"
-    onClick={() => handleViewProduct(product)}
-  />
-)}
+                    <Carousel
+                      showThumbs={false}
+                      showStatus={false}
+                      infiniteLoop
+                      className="rounded"
+                      // No hay onClick
+                      swipeable
+                    >
+                      {product.imagenes.map((img, index) => {
+                        const url =
+                          typeof img === "string"
+                            ? img
+                            : img.urlImagen ||
+                              "https://via.placeholder.com/300x200";
+                        return (
+                          <div key={index}>
+                            <img
+                              src={url}
+                              alt={`${product.nombre} ${index + 1}`}
+                              className="w-full h-48 object-cover rounded"
+                              // No hay onClick
+                            />
+                          </div>
+                        );
+                      })}
+                    </Carousel>
+                  ) : (
+                    <img
+                      src={
+                        product.imagenes && product.imagenes.length > 0
+                          ? typeof product.imagenes[0] === "string"
+                            ? product.imagenes[0]
+                            : product.imagenes[0].urlImagen ||
+                              "https://via.placeholder.com/300x200"
+                          : "https://via.placeholder.com/300x200"
+                      }
+                      alt={product.nombre}
+                      className="w-full h-48 object-cover rounded"
+                      // No hay onClick
+                    />
+                  )}
                   <h3 className="mt-4 text-lg font-semibold text-textdark">
                     {product.nombre}
                   </h3>
@@ -313,16 +306,6 @@ export default function Dashboard() {
           © {new Date().getFullYear()} Pu-Market | Todos los derechos reservados
         </p>
       </footer>
-
-      {/* MODAL DETALLE */}
-      {isDetailModalOpen && selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          isEditing={false}
-          onClose={handleCloseModal}
-          onEditProduct={() => {}}
-        />
-      )}
     </div>
   );
 }
