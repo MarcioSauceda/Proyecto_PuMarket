@@ -30,7 +30,7 @@ const EnhancedAdminSidebar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/loginadmin");
+    navigate("/");
   };
 
   return (
@@ -75,9 +75,7 @@ const EnhancedAdminSidebar = () => {
             className="w-10 h-10 rounded-full"
           />
           <div>
-            <p className="text-sm font-medium text-textdark">
-              Admin Pu-Market
-            </p>
+            <p className="text-sm font-medium text-textdark">Admin Pu-Market</p>
           </div>
         </div>
       </div>
