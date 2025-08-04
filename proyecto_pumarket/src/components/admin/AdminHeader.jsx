@@ -8,9 +8,6 @@ const AdminHeader = () => {
             <h1 className="text-2xl font-semibold text-white">
               Dashboard Administrador
             </h1>
-            <p className="mt-1 text-sm text-white">
-              Bienvenido, aquí tienes los datos del marketplace.
-            </p>
           </div>
           <div className="relative">
             <i className="absolute transform -translate-y-1/2 fas fa-search left-3 top-1/2 text-greylight"></i>

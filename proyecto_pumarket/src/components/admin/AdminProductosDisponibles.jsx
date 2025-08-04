@@ -46,68 +46,56 @@ const ProductosDisponiblesPage = () => {
           </div>
 
           {/* Tabla de Productos */}
-          <div className="overflow-x-auto bg-white rounded-lg shadow border border-greylight">
-            <table className="min-w-full">
-              <thead className="bg-softgray">
-                <tr>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    ID
-                  </th>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    Nombre
-                  </th>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    Categoría
-                  </th>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    Estado
-                  </th>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    Vendedor
-                  </th>
-                  <th className="px-4 py-3 text-xs font-bold text-black uppercase">
-                    Precio
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-softgray">
-                {loading ? (
-                  <tr>
-                    <td colSpan={6} className="text-center py-8 text-greylight">
-                      Cargando...
-                    </td>
-                  </tr>
-                ) : productos.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="text-center py-8 text-greylight">
-                      No hay productos disponibles.
-                    </td>
-                  </tr>
-                ) : (
-                  productos.map((p) => (
-                    <tr key={p.id}>
-                      <td className="px-4 py-2 text-black">{p.id}</td>
-                      <td className="px-4 py-2 text-black">{p.nombre}</td>
-                      <td className="px-4 py-2 text-black">
-                        {p.categoria?.nombre || "-"}
-                      </td>
-                      <td className="px-4 py-2 text-black">
-                        {p.estadoDelProducto?.nombre || "-"}
-                      </td>
-                      <td className="px-4 py-2 text-black">
-                        {p.vendedor
-                          ? `${p.vendedor.nombre} ${p.vendedor.apellido}`
-                          : "-"}
-                      </td>
-                      <td className="px-4 py-2 text-black">
-                        {p.precio ? `L. ${p.precio}` : "-"}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+<div className="overflow-x-auto bg-white rounded-lg shadow border border-greylight">
+  <table className="min-w-full table-fixed">
+    <thead className="bg-softgray">
+      <tr>
+        <th className="w-16 px-4 py-3 text-xs font-bold text-left text-black uppercase">ID</th>
+        <th className="w-1/5 px-4 py-3 text-xs font-bold text-left text-black uppercase">Nombre</th>
+        <th className="w-1/5 px-4 py-3 text-xs font-bold text-left text-black uppercase">Categoría</th>
+        <th className="w-1/5 px-4 py-3 text-xs font-bold text-left text-black uppercase">Estado</th>
+        <th className="w-1/5 px-4 py-3 text-xs font-bold text-left text-black uppercase">Vendedor</th>
+        <th className="w-1/5 px-4 py-3 text-xs font-bold text-left text-black uppercase">Precio</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white divide-y divide-softgray">
+      {loading ? (
+        <tr>
+          <td colSpan={6} className="text-center py-8 text-greylight">
+            Cargando...
+          </td>
+        </tr>
+      ) : productos.length === 0 ? (
+        <tr>
+          <td colSpan={6} className="text-center py-8 text-greylight">
+            No hay productos disponibles.
+          </td>
+        </tr>
+      ) : (
+        productos.map((p) => (
+          <tr key={p.id}>
+            <td className="w-16 px-4 py-2 text-left text-black">{p.id}</td>
+            <td className="w-1/5 px-4 py-2 text-left text-black">{p.nombre}</td>
+            <td className="w-1/5 px-4 py-2 text-left text-black">
+              {p.categoria?.nombre || "-"}
+            </td>
+            <td className="w-1/5 px-4 py-2 text-left text-black">
+              {p.estadoDelProducto?.nombre || "-"}
+            </td>
+            <td className="w-1/5 px-4 py-2 text-left text-black">
+              {p.vendedor
+                ? `${p.vendedor.nombre} ${p.vendedor.apellido}`
+                : "-"}
+            </td>
+            <td className="w-1/5 px-4 py-2 text-left text-black">
+              {p.precio ? `L. ${p.precio}` : "-"}
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
         </main>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { FaBox } from "react-icons/fa";
 import AdminHeader from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
-import { FaBox } from "react-icons/fa";
 const CategoriaPage = () => {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -181,7 +181,8 @@ const CategoriaPage = () => {
                           </button>
                           <button
                             onClick={() => eliminarCategoria(cat.id)}
-                            className="text-error hover:underline"
+                            className="text-red-600 hover:underline"
+
                           >
                             Eliminar
                           </button>

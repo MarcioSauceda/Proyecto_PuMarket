@@ -21,7 +21,7 @@ return (
       </span>
       </h2>
         <p className="text-base sm:text-lg md:text-xl mt-4 px-2">
-          Compra y vende entre estudiantes de forma segura, rápida y sin salir
+          Compra y vende productos entre estudiantes de forma segura, rápida y sin salir
           del campus.
         </p>
         <br />

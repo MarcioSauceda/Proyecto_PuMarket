@@ -50,10 +50,10 @@ const UsuariosPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-greylight">
-                  Total Usuarios Registrados
+                  Total Usuarios Activos
                 </p>
-                <p className="mt-1 text-2xl font-bold text-textdark">
-                  {users.length} <span className="font-semibold">Usuarios</span>
+                <p className="mt-2 text-3xl font-bold text-textdark">
+                  {users.length} <span className="mt-2 text-3xl font-bold text-textdark">Usuarios</span>
                 </p>
               </div>
               <div className="flex items-center justify-center w-10 h-10 mt-1 ml-2 rounded-md bg-accent bg-opacity-20">
@@ -66,7 +66,7 @@ const UsuariosPage = () => {
           <div className="mb-6 overflow-x-auto bg-white border shadow-sm rounded-xl border-greylight">
             <div className="px-6 py-4 border-b border-softgray">
               <h3 className="text-lg font-semibold text-textdark">
-                Usuarios registrados en Pu-Market
+                Usuarios Activos en Pu-Market
               </h3>
             </div>
             <table className="w-full">
@@ -81,7 +81,7 @@ const UsuariosPage = () => {
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
                     Ventas
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-greylight relative left-0">
                     Acciones
                   </th>
                 </tr>
@@ -124,12 +124,12 @@ const UsuariosPage = () => {
                         {user.ventas + " Productos"}
                       </td>
                       <td className="px-6 py-4 text-sm text-center whitespace-nowrap">
-                        <div className="flex justify-center space-x-4">
+                        <div className="flex justify-start">
                           <button
-                            className="text-error hover:text-error/80"
+                            className="text-red-600 hover:underline"
                             onClick={() => eliminarUsuario(user.id)}
                           >
-                            <FaTrash />
+                            <FaTrash/>
                           </button>
                         </div>
                       </td>

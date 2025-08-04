@@ -280,14 +280,14 @@ export default function Profile() {
                         setIsEditing(true);
                         setIsAddModalOpen(true);
                       }}
-                      className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+                      className="flex-1 px-3 py-1 bg-accent text-textdark rounded-xl hover:opacity-90"
                     >
                       Editar
                     </button>
 
                     <button
                       onClick={() => handleDeleteProduct(product.id)}
-                      className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+                      className="flex-1 px-3 py-1 bg-accent text-textdark rounded-xl hover:opacity-90"
                     >
                       Eliminar
                     </button>
@@ -299,7 +299,7 @@ export default function Profile() {
                       setProductToSell(product);
                       setIsSoldModalOpen(true);
                     }}
-                    className="w-full px-3 py-1 bg-primary text-white rounded hover:opacity-90"
+                    className="w-full px-3 py-1 bg-primary text-white rounded-xl hover:opacity-90"
                   >
                     Marcar como vendido
                   </button>

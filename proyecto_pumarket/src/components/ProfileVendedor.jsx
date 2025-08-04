@@ -173,7 +173,7 @@ export default function ProfileVendedor() {
                             `/messages/${vendedor.correoInstitucional}?productoId=${product.id}&compradorId=${user.id}`
                           )
                         }
-                        className="flex-1 px-3 py-1 bg-accent text-textdark rounded hover:opacity-90"
+                        className="flex-1 px-3 py-1 bg-accent text-textdark rounded-xl hover:opacity-90"
                       >
                         Enviar Mensaje
                       </button>

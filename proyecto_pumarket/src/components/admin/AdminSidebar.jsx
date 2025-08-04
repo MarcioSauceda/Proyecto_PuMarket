@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ReactComponent as Logo } from "../../assets/logoPuma3.svg";
 import {
+  FaBoxOpen,
+  FaChartBar,
+  FaCubes,
+  FaSignOutAlt,
   FaTachometerAlt,
   FaTags,
   FaUserFriends,
-  FaCubes,
-  FaSignOutAlt,
-  FaChartBar,
-  FaBoxOpen,
 } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as Logo } from "../../assets/logoPuma3.svg";
 import { useAuth } from "../../context/AuthContext";
 
 const navItems = [
@@ -25,7 +25,7 @@ const navItems = [
 ];
 
 const EnhancedAdminSidebar = () => {
-  const { logout, user } = useAuth(); // <--- Agrega user aquí
+  const { logout } = useAuth(); // <--- Agrega user aquí
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -76,7 +76,7 @@ const EnhancedAdminSidebar = () => {
           />
           <div>
             <p className="text-sm font-medium text-textdark">
-              {user?.nombre} {user?.apellido}
+              Admin Pu-Market
             </p>
           </div>
         </div>

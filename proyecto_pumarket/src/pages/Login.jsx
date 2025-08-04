@@ -17,10 +17,14 @@ export default function Login() {
     setError("");
 
     // Validar dominio
-    if (!email.toLowerCase().endsWith("@unah.hn")) {
-      setError("Solo se permite iniciar sesión con correos @unah.hn");
-      return;
-    }
+    if (
+  !email.toLowerCase().endsWith("@unah.hn") &&
+  !email.toLowerCase().endsWith("@unah.edu.hn")
+) {
+  setError("Solo se permite iniciar sesión con correos @unah.hn o @unah.edu.hn");
+  return;
+}
+
 
     try {
       const response = await fetch("http://localhost:8080/api/login", {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { FaCheckSquare } from "react-icons/fa"; // Usamos un ícono diferente
 import AdminHeader from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
-import { FaCheckSquare } from "react-icons/fa"; // Usamos un ícono diferente
 
 const EstadoProductoPage = () => {
   const [estados, setEstados] = useState([]);
@@ -185,7 +185,7 @@ const EstadoProductoPage = () => {
                           </button>
                           <button
                             onClick={() => eliminarEstado(estado.id)}
-                            className="text-error hover:underline"
+                            className="text-red-600 hover:underline"
                           >
                             Eliminar
                           </button>
